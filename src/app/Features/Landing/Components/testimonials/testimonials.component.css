@@ -1,0 +1,60 @@
+.testimonials {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.carousel {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: hidden;
+    
+}
+
+.slides {
+  display: flex;
+  margin: 0 auto;
+  max-width: 750px;
+  transition: transform 0.5s ease;
+}
+
+.slide {
+  min-width: 100%;
+  padding: 30px;
+}
+
+.testimonial {
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.quote {
+  font-style: italic;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.author {
+  font-weight: bold;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: #6e8efb;
+}

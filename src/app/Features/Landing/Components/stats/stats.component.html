@@ -1,0 +1,11 @@
+<section class="statistics">
+    <div class="container">
+      <h2 class="section-title">Our Impact</h2>
+      <div class="stats-container">
+        <div class="stat" *ngFor="let stat of stats">
+          <div class="stat-number" [id]="stat.id">0</div>
+          <div class="stat-label">{{ stat.label }}</div>
+        </div>
+      </div>
+    </div>
+  </section>

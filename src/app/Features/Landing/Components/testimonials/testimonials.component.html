@@ -1,0 +1,23 @@
+<section class="testimonials">
+    <div class="container">
+      <h2 class="section-title">Success Stories</h2>
+      <div class="carousel">
+        <div class="slides" [style.transform]="'translateX(-' + currentSlide * 110 + '%)'">
+          <div class="slide" *ngFor="let testimonial of testimonials">
+            <div class="testimonial">
+              <p class="quote">{{ testimonial.quote }}</p>
+              <p class="author">{{ testimonial.author }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="dots">
+          <div 
+            class="dot" 
+            *ngFor="let testimonial of testimonials; let i = index" 
+            [class.active]="i === currentSlide"
+            (click)="setCurrentSlide(i)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

@@ -1,0 +1,8 @@
+<footer>
+    <div class="container">
+      <div class="footer-links">
+        <a *ngFor="let link of footerLinks" [href]="link.url">{{ link.text }}</a>
+      </div>
+      <p>&copy; {{ currentYear }} Skill Matcher. All rights reserved.</p>
+    </div>
+  </footer>
