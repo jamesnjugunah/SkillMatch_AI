@@ -1,1 +1,136 @@
-<p>dashboard works!</p>
+<!-- dashboard.component.html -->
+<div class="content-page active" id="dashboardPage">
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+      <div class="welcome-header">
+        <div class="welcome-message">
+          <h2>Hello, {{username}}!</h2>
+          <p>Here's what's happening with your job search today.</p>
+        </div>
+        <div class="profile-completion">
+          <span>Profile completion</span>
+          <div class="progress-bar-container">
+            <div class="progress-bar" [style.width]="profileCompletion + '%'"></div>
+          </div>
+          <span>{{profileCompletion}}%</span>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Applications Status Section -->
+    <div class="content-section">
+      <div class="section-header">
+        <div class="section-title">Applications Status</div>
+      </div>
+      <div class="applications-status">
+        <div class="status-card">
+          <p>Total Applications</p>
+          <div class="status-number">{{applicationStats.total}}</div>
+        </div>
+        <div class="status-card">
+          <p>Under Review</p>
+          <div class="status-number">{{applicationStats.underReview}}</div>
+        </div>
+        <div class="status-card">
+          <p>Interviews</p>
+          <div class="status-number">{{applicationStats.interviews}}</div>
+        </div>
+        <div class="status-card">
+          <p>Offers</p>
+          <div class="status-number">{{applicationStats.offers}}</div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Recommended Jobs Section -->
+    <div class="content-section">
+      <div class="section-header">
+        <div class="section-title">Recommended Jobs</div>
+        <a href="#" class="view-all">View all</a>
+      </div>
+      <div class="job-cards">
+        <div class="job-card" *ngFor="let job of recommendedJobs">
+          <div class="job-company">
+            <img [src] = "job.imgUrl" alt="Company Logo" />
+            <div class="company-info">
+              <h4>{{job.company}}</h4>
+              <p>{{job.location}}</p>
+            </div>
+          </div>
+          <h3 class="job-title">{{job.title}}</h3>
+          <div class="job-details">
+            <div class="job-detail">
+              <i class="fas fa-money-bill-wave"></i>
+              <span>{{job.salary}}</span>
+            </div>
+            <div class="job-detail">
+              <i class="fas fa-briefcase"></i>
+              <span>{{job.type}}</span>
+            </div>
+            <div class="job-detail">
+              <i [ngClass]="job.workMode === 'Remote' ? 'fas fa-home' : 'fas fa-building'"></i>
+              <span>{{job.workMode}}</span>
+            </div>
+          </div>
+          <div class="job-tags">
+            <span class="job-tag" *ngFor="let tag of job.tags">{{tag}}</span>
+          </div>
+          <div class="job-actions">
+            <button class="job-action-btn btn-primary" (click)="applyForJob(job)">Apply Now</button>
+            <button class="job-action-btn btn-outline" (click)="saveJob(job)">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Upcoming Interviews Section -->
+    <div class="content-section">
+      <div class="section-header">
+        <div class="section-title">Upcoming Interviews</div>
+        <a href="#" class="view-all">View Calendar</a>
+      </div>
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <div class="calendar-nav">
+            <button (click)="previousMonth()"><i class="fas fa-chevron-left"></i></button>
+            <span>{{currentMonth}}</span>
+            <button (click)="nextMonth()"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+        <div class="calendar-grid">
+          <div class="calendar-day-header">Mon</div>
+          <div class="calendar-day-header">Tue</div>
+          <div class="calendar-day-header">Wed</div>
+          <div class="calendar-day-header">Thu</div>
+          <div class="calendar-day-header">Fri</div>
+          <div class="calendar-day-header">Sat</div>
+          <div class="calendar-day-header">Sun</div>
+  
+          <div *ngFor="let day of calendarDays" 
+               [ngClass]="{
+                 'calendar-day': true,
+                 'other-month': !day.isCurrentMonth,
+                 'current-month': day.isCurrentMonth,
+                 'today': day.isToday,
+                 'has-event': day.hasEvent
+               }">
+            {{day.day}}
+          </div>
+        </div>
+        <div class="interview-events">
+          <div class="interview-event" *ngFor="let event of interviewEvents">
+            <div class="event-time">
+              <p>{{event.date}}</p>
+              <p>{{event.time}}</p>
+            </div>
+            <div class="event-details">
+              <h4>{{event.title}}</h4>
+              <p class="event-company">
+                {{event.company}} - {{event.position}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

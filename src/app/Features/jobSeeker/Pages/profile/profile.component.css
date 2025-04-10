@@ -1,0 +1,35 @@
+.content-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.welcome-section {
+  margin-bottom: 24px;
+}
+
+.welcome-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.welcome-message h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.welcome-message p {
+  color: var(--light-text);
+}
+
+.profile-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

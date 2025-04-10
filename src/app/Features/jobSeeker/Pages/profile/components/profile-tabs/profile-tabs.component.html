@@ -1,0 +1,17 @@
+<div class="profile-tabs-container">
+    <div class="tab-nav">
+      <div class="tab-item" [class.active]="isTabActive('about')" (click)="setActiveTab('about')">About</div>
+      <div class="tab-item" [class.active]="isTabActive('experience')" (click)="setActiveTab('experience')">Experience</div>
+      <div class="tab-item" [class.active]="isTabActive('education')" (click)="setActiveTab('education')">Education</div>
+      <div class="tab-item" [class.active]="isTabActive('skills')" (click)="setActiveTab('skills')">Skills</div>
+      <div class="tab-item" [class.active]="isTabActive('resume')" (click)="setActiveTab('resume')">Resume</div>
+      <div class="tab-item" [class.active]="isTabActive('preferences')" (click)="setActiveTab('preferences')">Preferences</div>
+    </div>
+  
+    <app-about-tab *ngIf="isTabActive('about')" [summary]="profile.summary"></app-about-tab>
+    <app-experience-tab *ngIf="isTabActive('experience')" [experiences]="profile.experiences"></app-experience-tab>
+    <app-education-tab *ngIf="isTabActive('education')" [education]="profile.education"></app-education-tab>
+    <app-skills-tab *ngIf="isTabActive('skills')" [skills]="profile.skills"></app-skills-tab>
+    <app-resume-tab *ngIf="isTabActive('resume')" [resumes]="profile.resumes"></app-resume-tab>
+    <app-preferences-tab *ngIf="isTabActive('preferences')" [preferences]="profile.preferences"></app-preferences-tab>
+  </div>

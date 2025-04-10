@@ -1,1 +1,24 @@
-<p>profile works!</p>
+<div class="content-page" id="profilePage">
+    <div class="welcome-section">
+      <div class="welcome-header">
+        <div class="welcome-message">
+          <h2>My Profile</h2>
+          <p>Manage your professional information and preferences.</p>
+        </div>
+        <div class="profile-actions">
+          <button class="job-action-btn btn-primary" (click)="downloadResume()">
+            <i class="fas fa-download"></i> Download Resume
+          </button>
+          <button class="job-action-btn btn-outline" (click)="previewProfile()">
+            <i class="fas fa-eye"></i> Preview Profile
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <div class="profile-container" *ngIf="profile">
+      <app-profile-header [profile]="profile"></app-profile-header>
+      <app-profile-tabs [profile]="profile"></app-profile-tabs>
+    </div>
+  </div>
+  

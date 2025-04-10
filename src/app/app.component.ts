@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
-import { ApplicationsComponent } from './Features/jobSeeker/Components/applications/applications.component';
-// import { DashboardComponent } from './Features/jobSeeker/Components/dashboard/dashboard.component';
+import { JobPageComponent } from './Features/jobSeeker/job-page/job-page.component';
+import { RouterModule } from '@angular/router';
+
 
 
 @Component({
   selector: 'app-root',
-  imports: [ ApplicationsComponent],
   standalone: true,
+  imports: [ JobPageComponent, RouterModule], // <-- import RouterModule if needed for <router-outlet>
   templateUrl: './app.component.html',
+
   styleUrl: './app.component.css'
 })
 export class AppComponent {

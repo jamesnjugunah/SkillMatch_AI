@@ -1,0 +1,19 @@
+<div class="tab-content" id="education">
+    <div class="content-section">
+      <div class="section-header">
+        <div class="section-title">Education</div>
+        <button class="icon-button" title="Add Education" (click)="addEducation()">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <div class="timeline">
+        <app-timeline-item 
+          *ngFor="let edu of education; let i = index" 
+          [item]="edu" 
+          [itemType]="'education'"
+          (onEdit)="editEducation(i)"
+          (onDelete)="deleteEducation(i)">
+        </app-timeline-item>
+      </div>
+    </div>
+  </div>

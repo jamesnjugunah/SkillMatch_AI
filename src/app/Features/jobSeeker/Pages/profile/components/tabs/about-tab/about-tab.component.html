@@ -1,0 +1,13 @@
+<div class="tab-content active" id="about">
+    <div class="content-section">
+      <div class="section-header">
+        <div class="section-title">Professional Summary</div>
+        <button class="icon-button" title="Edit Summary" (click)="editSummary()">
+          <i class="fas fa-edit"></i>
+        </button>
+      </div>
+      <div class="about-content">
+        <p *ngFor="let paragraph of summary">{{ paragraph }}</p>
+      </div>
+    </div>
+  </div>

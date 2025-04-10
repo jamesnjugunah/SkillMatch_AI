@@ -1,0 +1,11 @@
+.about-content {
+    line-height: 1.8;
+  }
+  
+  .about-content p {
+    margin-bottom: 16px;
+  }
+  
+  .about-content p:last-child {
+    margin-bottom: 0;
+  }

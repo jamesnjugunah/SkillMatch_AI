@@ -1,0 +1,40 @@
+<div class="tab-content" id="resume">
+    <div class="content-section">
+      <div class="section-header">
+        <div class="section-title">Uploaded Resumes</div>
+        <button class="job-action-btn btn-primary" (click)="uploadResume()">
+          <i class="fas fa-upload"></i> Upload New Resume
+        </button>
+      </div>
+      <div class="resume-list">
+        <div class="resume-item" *ngFor="let resume of resumes; let i = index">
+          <div class="resume-icon">
+            <i class="far" [ngClass]="resume.type === 'pdf' ? 'fa-file-pdf' : 'fa-file-word'"></i>
+          </div>
+          <div class="resume-info">
+            <h4>{{ resume.name }}</h4>
+            <div class="resume-meta">
+              <span>
+                <i class="fas fa-calendar-alt"></i> Uploaded on {{ resume.uploadDate }}
+              </span>
+              <span *ngIf="resume.isDefault">
+                <i class="fas fa-paperclip"></i> Default for applications
+              </span>
+            </div>
+          </div>
+          <div class="resume-actions">
+            <button class="job-action-btn btn-outline" (click)="previewResume(i)">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <button class="job-action-btn btn-outline" (click)="downloadResume(i)">
+              <i class="fas fa-download"></i> Download
+            </button>
+            <button class="icon-button" title="Delete" (click)="deleteResume(i)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

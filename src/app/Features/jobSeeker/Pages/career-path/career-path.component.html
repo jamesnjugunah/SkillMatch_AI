@@ -1,0 +1,136 @@
+<!-- career-paths.component.html -->
+<div class="content-page" id="careerPathsPage">
+    <div class="welcome-section">
+      <div class="welcome-header">
+        <div class="welcome-message">
+          <h2>Career Paths</h2>
+          <p>Explore potential career paths and growth opportunities.</p>
+        </div>
+      </div>
+    </div>
+  
+    <div class="content-section">
+      <div class="section-header">
+        <div class="section-title">Current Position</div>
+      </div>
+      <div class="current-position">
+        <div class="position-card">
+          <div class="position-icon">
+            <i class="fas fa-briefcase"></i>
+          </div>
+          <div class="position-info">
+            <h3>{{ currentPosition.title }}</h3>
+            <p>You are here</p>
+            <div class="position-stats">
+              <div class="stat-item">
+                <span class="stat-label">Experience Level</span>
+                <span class="stat-value">{{ currentPosition.experienceLevel }}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Avg. Salary Range</span>
+                <span class="stat-value">{{ currentPosition.salaryRange }}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Market Demand</span>
+                <div class="demand-indicator high">
+                  <span>{{ currentPosition.marketDemand }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="content-section">
+      <div class="section-header">
+        <div class="section-title">Potential Career Paths</div>
+        <div class="path-filters">
+          <select class="form-control" [(ngModel)]="selectedPathFilter" (change)="filterPaths(selectedPathFilter)">
+            <option value="all">All Paths</option>
+            <option value="technical">Technical</option>
+            <option value="management">Management</option>
+            <option value="specialized">Specialized</option>
+          </select>
+        </div>
+      </div>
+      <div class="career-paths">
+        <!-- Career Path Cards -->
+        <div class="career-path" *ngFor="let path of getFilteredPaths()">
+          <div class="path-header">
+            <div class="path-icon">
+              <i [class]="path.icon"></i>
+            </div>
+            <div class="path-title">
+              <h3>{{ path.title }}</h3>
+              <p>{{ path.description }}</p>
+            </div>
+          </div>
+          <div class="path-progression">
+            <div *ngFor="let item of path.progression; let last = last" class="progression-item" [ngClass]="{'current': item.isCurrent}">
+              <div class="progression-content">
+                <h4>{{ item.title }}</h4>
+                <p>{{ item.timeEstimate }}</p>
+                <div class="progression-salary" *ngIf="item.salary">{{ item.salary }}</div>
+              </div>
+              <div class="progression-arrow" *ngIf="!last">
+                <i class="fas fa-long-arrow-alt-right"></i>
+              </div>
+            </div>
+          </div>
+          <div class="path-skills">
+            <h4>Key Skills to Develop</h4>
+            <div class="skill-tags">
+              <span class="skill-tag" *ngFor="let skill of path.skills">{{ skill }}</span>
+            </div>
+          </div>
+          <div class="path-actions">
+            <button class="job-action-btn btn-primary" (click)="setAsGoal(path.title)">
+              Set as Goal
+            </button>
+            <button class="job-action-btn btn-outline" (click)="exploreJobs(path.title)">
+              Explore Jobs
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="content-section">
+      <div class="section-header">
+        <div class="section-title">Recommended Learning</div>
+      </div>
+      <div class="learning-container">
+        <!-- Learning Paths -->
+        <div class="learning-path" *ngFor="let learningPath of learningPaths">
+          <div class="learning-header">
+            <h3>
+              <i [class]="learningPath.icon"></i> {{ learningPath.title }}
+            </h3>
+          </div>
+          <div class="learning-content">
+            <div class="course-list">
+              <div class="course-item" *ngFor="let course of learningPath.courses">
+                <div class="course-icon">
+                  <i [class]="course.icon"></i>
+                </div>
+                <div class="course-info">
+                  <h4>{{ course.title }}</h4>
+                  <p>{{ course.description }}</p>
+                  <div class="course-meta">
+                    <span><i class="fas fa-clock"></i> {{ course.duration }}</span>
+                    <span><i class="fas fa-star"></i> {{ course.rating }}</span>
+                  </div>
+                </div>
+                <div class="course-actions">
+                  <button class="job-action-btn btn-outline" (click)="viewCourse(course.title)">
+                    View Course
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

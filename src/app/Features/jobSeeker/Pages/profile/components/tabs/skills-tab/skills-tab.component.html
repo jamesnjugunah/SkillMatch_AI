@@ -1,0 +1,46 @@
+<div class="tab-content" id="skills">
+    <div class="content-section">
+      <div class="section-header">
+        <div class="section-title">Technical Skills</div>
+        <button class="icon-button" title="Add Skill" (click)="addSkill()">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <div class="skills-container">
+        <div class="skills-group">
+          <h3>Frontend Development</h3>
+          <div class="skill-items">
+            <app-skill-item 
+              *ngFor="let skill of skills.frontend; let i = index" 
+              [skill]="skill"
+              (onEdit)="editSkill('frontend', i)"
+              (onDelete)="deleteSkill('frontend', i)">
+            </app-skill-item>
+          </div>
+        </div>
+        
+        <div class="skills-group">
+          <h3>Tools & Libraries</h3>
+          <div class="skill-items">
+            <app-skill-item 
+              *ngFor="let skill of skills.tools; let i = index" 
+              [skill]="skill"
+              (onEdit)="editSkill('tools', i)"
+              (onDelete)="deleteSkill('tools', i)">
+            </app-skill-item>
+          </div>
+        </div>
+        
+        <div class="skills-group">
+          <h3>Soft Skills</h3>
+          <div class="skill-tags">
+            <span class="skill-tag" *ngFor="let soft of skills.soft">{{ soft }}</span>
+            <button class="skill-tag add-tag" (click)="addSoftSkill()">
+              <i class="fas fa-plus"></i> Add Skill
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

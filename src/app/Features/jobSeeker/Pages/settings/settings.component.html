@@ -1,0 +1,264 @@
+<!-- settings.component.html -->
+<div class="settings-page">
+    <div class="settings-header">
+      <h2>Account Settings</h2>
+      <p>Manage your account preferences and settings</p>
+    </div>
+  
+    <div class="settings-container">
+      <!-- Left Sidebar Navigation -->
+      <div class="settings-nav">
+        <ul>
+          <li [ngClass]="{'active': activeTab === 'account'}" (click)="setActiveTab('account')">
+            <i class="fas fa-user"></i> Account
+          </li>
+          <li [ngClass]="{'active': activeTab === 'notifications'}" (click)="setActiveTab('notifications')">
+            <i class="fas fa-bell"></i> Notifications
+          </li>
+          <li [ngClass]="{'active': activeTab === 'privacy'}" (click)="setActiveTab('privacy')">
+            <i class="fas fa-shield-alt"></i> Privacy
+          </li>
+          <li [ngClass]="{'active': activeTab === 'password'}" (click)="setActiveTab('password')">
+            <i class="fas fa-lock"></i> Password
+          </li>
+          <li [ngClass]="{'active': activeTab === 'danger'}" (click)="setActiveTab('danger')">
+            <i class="fas fa-exclamation-triangle"></i> Danger Zone
+          </li>
+        </ul>
+      </div>
+  
+      <!-- Main Content Area -->
+      <div class="settings-content">
+        <!-- Loading State -->
+        <div class="settings-loading" *ngIf="isLoading">
+          <div class="spinner"></div>
+          <p>Loading settings...</p>
+        </div>
+  
+        <!-- Success Message -->
+        <div class="settings-alert success" *ngIf="saveSuccess">
+          <i class="fas fa-check-circle"></i>
+          <span>Settings saved successfully!</span>
+        </div>
+  
+        <!-- Error Message -->
+        <div class="settings-alert error" *ngIf="saveError">
+          <i class="fas fa-exclamation-circle"></i>
+          <span>Error saving settings. Please try again.</span>
+        </div>
+  
+        <!-- Account Settings Tab -->
+        <div class="settings-section" [ngClass]="{'active': activeTab === 'account'}" *ngIf="!isLoading">
+          <h3>Account Information</h3><hr>
+          <form [formGroup]="accountForm" (ngSubmit)="saveAccountSettings()">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" formControlName="email">
+              <div class="form-error" *ngIf="accountForm.get('email')?.errors?.['required'] && accountForm.get('email')?.touched">
+                Email is required
+              </div>
+              <div class="form-error" *ngIf="accountForm.get('email')?.errors?.['email'] && accountForm.get('email')?.touched">
+                Please enter a valid email address
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="displayName">Display Name</label>
+              <input type="text" id="displayName" formControlName="displayName">
+              <div class="form-error" *ngIf="accountForm.get('displayName')?.errors?.['required'] && accountForm.get('displayName')?.touched">
+                Display name is required
+              </div>
+            </div>
+            
+            <h3>Appearance</h3><hr>
+            <div class="form-group">
+              <label for="theme">Theme</label>
+              <select id="theme" formControlName="theme">
+                <option *ngFor="let theme of themes" [value]="theme.value">{{ theme.label }}</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="language">Language</label>
+              <select id="language" formControlName="language">
+                <option *ngFor="let lang of languages" [value]="lang.value">{{ lang.label }}</option>
+              </select>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="accountForm.invalid || isLoading">
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+  
+        <!-- Notification Settings Tab -->
+        <div class="settings-section" [ngClass]="{'active': activeTab === 'notifications'}" *ngIf="!isLoading">
+          <h3>Email Notifications</h3>
+          <p class="settings-section-subtitle">Choose which emails you'd like to receive</p>
+          
+          <form [formGroup]="notificationForm" (ngSubmit)="saveNotificationSettings()">
+            <div class="toggle-group">
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <h4>New Job Matches</h4>
+                  <p>Get notified when new jobs matching your preferences are posted</p>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" formControlName="newJobs">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <h4>Application Updates</h4>
+                  <p>Receive updates about your job applications</p>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" formControlName="applicationUpdates">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <h4>Job Alert Notifications</h4>
+                  <p>Get emails when your saved job alerts have new matches</p>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" formControlName="jobAlerts">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <h4>Weekly Job Digest</h4>
+                  <p>Receive a weekly summary of jobs that match your profile</p>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" formControlName="weeklyDigest">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="notificationForm.invalid || isLoading">
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+  
+        <!-- Privacy Settings Tab -->
+        <div class="settings-section" [ngClass]="{'active': activeTab === 'privacy'}" *ngIf="!isLoading">
+          <h3>Privacy Settings</h3>
+          <p class="settings-section-subtitle">Control who can see your information</p>
+          
+          <form [formGroup]="privacyForm" (ngSubmit)="savePrivacySettings()">
+            <div class="form-group">
+              <label for="profileVisibility">Profile Visibility</label>
+              <select id="profileVisibility" formControlName="profileVisibility">
+                <option value="public">Public - Visible to everyone</option>
+                <option value="contacts">Contacts Only - Visible to your connections</option>
+                <option value="private">Private - Only visible to you</option>
+              </select>
+            </div>
+            
+            <div class="toggle-group">
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <h4>Allow Recruiters</h4>
+                  <p>Let recruiters know you're open to opportunities</p>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" formControlName="allowRecruiters">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <h4>Show Salary Preferences</h4>
+                  <p>Display your salary requirements to potential employers</p>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" formControlName="showSalary">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="privacyForm.invalid || isLoading">
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+  
+        <!-- Password Settings Tab -->
+        <div class="settings-section" [ngClass]="{'active': activeTab === 'password'}" *ngIf="!isLoading">
+          <h3>Change Password</h3>
+          <p class="settings-section-subtitle">Update your password to keep your account secure</p>
+          
+          <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+            <div class="form-group">
+              <label for="currentPassword">Current Password</label>
+              <input type="password" id="currentPassword" formControlName="currentPassword">
+              <div class="form-error" *ngIf="passwordForm.get('currentPassword')?.errors?.['required'] && passwordForm.get('currentPassword')?.touched">
+                Current password is required
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="newPassword">New Password</label>
+              <input type="password" id="newPassword" formControlName="newPassword">
+              <div class="form-error" *ngIf="passwordForm.get('newPassword')?.errors?.['required'] && passwordForm.get('newPassword')?.touched">
+                New password is required
+              </div>
+              <div class="form-error" *ngIf="passwordForm.get('newPassword')?.errors?.['minlength'] && passwordForm.get('newPassword')?.touched">
+                Password must be at least 8 characters
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input type="password" id="confirmPassword" formControlName="confirmPassword">
+              <div class="form-error" *ngIf="passwordForm.get('confirmPassword')?.errors?.['required'] && passwordForm.get('confirmPassword')?.touched">
+                Please confirm your password
+              </div>
+              <div class="form-error" *ngIf="passwordForm.errors?.['passwordMismatch'] && passwordForm.get('confirmPassword')?.touched">
+                Passwords do not match
+              </div>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="passwordForm.invalid || isLoading">
+                Update Password
+              </button>
+            </div>
+          </form>
+        </div>
+  
+        <!-- Danger Zone Tab -->
+        <div class="settings-section danger-zone" [ngClass]="{'active': activeTab === 'danger'}" *ngIf="!isLoading">
+          <h3>Danger Zone</h3>
+          <p class="settings-section-subtitle">Irreversible actions for your account</p>
+          
+          <div class="danger-card">
+            <div class="danger-info">
+              <h4>Delete Your Account</h4>
+              <p>Permanently delete your account and all associated data. This action cannot be undone.</p>
+            </div>
+            <button class="btn-danger" (click)="deleteAccount()" [disabled]="isLoading">
+              Delete Account
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

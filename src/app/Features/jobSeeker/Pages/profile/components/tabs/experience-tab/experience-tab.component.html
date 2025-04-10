@@ -1,0 +1,19 @@
+<div class="tab-content" id="experience">
+    <div class="content-section">
+      <div class="section-header">
+        <div class="section-title">Work Experience</div>
+        <button class="icon-button" title="Add Experience" (click)="addExperience()">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <div class="timeline">
+        <app-timeline-item 
+          *ngFor="let exp of experiences; let i = index" 
+          [item]="exp" 
+          [itemType]="'experience'"
+          (onEdit)="editExperience(i)"
+          (onDelete)="deleteExperience(i)">
+        </app-timeline-item>
+      </div>
+    </div>
+  </div>

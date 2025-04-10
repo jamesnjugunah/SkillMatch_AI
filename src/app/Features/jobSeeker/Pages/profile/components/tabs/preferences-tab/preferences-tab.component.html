@@ -1,0 +1,63 @@
+<div class="tab-content" id="preferences">
+    <div class="content-section">
+      <div class="section-header">
+        <div class="section-title">Job Preferences</div>
+        <button class="icon-button" title="Edit Preferences" (click)="editPreferences()">
+          <i class="fas fa-edit"></i>
+        </button>
+      </div>
+      <div class="preferences-grid">
+        <div class="preference-item">
+          <h4>Job Titles</h4>
+          <div class="preference-tags">
+            <span class="preference-tag" *ngFor="let title of preferences.jobTitles">{{ title }}</span>
+          </div>
+        </div>
+        <div class="preference-item">
+          <h4>Locations</h4>
+          <div class="preference-tags">
+            <span class="preference-tag" *ngFor="let location of preferences.locations">{{ location }}</span>
+          </div>
+        </div>
+        <div class="preference-item">
+          <h4>Job Types</h4>
+          <div class="preference-tags">
+            <span class="preference-tag" *ngFor="let type of preferences.jobTypes">{{ type }}</span>
+          </div>
+        </div>
+        <div class="preference-item">
+          <h4>Work Environment</h4>
+          <div class="preference-tags">
+            <span class="preference-tag" *ngFor="let env of preferences.workEnvironment">{{ env }}</span>
+          </div>
+        </div>
+        <div class="preference-item">
+          <h4>Desired Salary</h4>
+          <p>{{ preferences.salary }}</p>
+        </div>
+        <div class="preference-item">
+          <h4>Industries</h4>
+          <div class="preference-tags">
+            <span class="preference-tag" *ngFor="let industry of preferences.industries">{{ industry }}</span>
+          </div>
+        </div>
+        <div class="preference-item">
+          <h4>Relocation</h4>
+          <p>{{ preferences.relocation }}</p>
+        </div>
+        <div class="preference-item">
+          <h4>Travel</h4>
+          <p>{{ preferences.travel }}</p>
+        </div>
+        <div class="preference-item">
+          <h4>Work Authorization</h4>
+          <p>{{ preferences.workAuthorization }}</p>
+        </div>
+        <div class="preference-item">
+          <h4>Notice Period</h4>
+          <p>{{ preferences.noticePeriod }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
