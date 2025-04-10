@@ -1,0 +1,19 @@
+<!-- sidebar.component.html -->
+<div class="sidebar">
+    <ul class="sidebar-links">
+      <li *ngFor="let item of menuItems">
+        <a [routerLink]="item.path" 
+           [class.active]="item.active"
+           (click)="setActive(item)">
+          <i [class]="item.icon"></i> {{ item.label }}
+        </a>
+      </li>
+    </ul>
+    <div class="sidebar-footer">
+        <a class="feedback-link">
+            <i class="fas fa-comment-dots"></i> Feedback
+        </a>
+    </div>
+   
+     
+  </div>

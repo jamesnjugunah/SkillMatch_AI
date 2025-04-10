@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
-import { LandingPageComponent } from './Features/Landing/page/landing-page/landing-page.component';
-
+import { ApplicationsComponent } from './Features/jobSeeker/Components/applications/applications.component';
+// import { DashboardComponent } from './Features/jobSeeker/Components/dashboard/dashboard.component';
 
 
 @Component({
   selector: 'app-root',
-  imports: [ LandingPageComponent],
+  imports: [ ApplicationsComponent],
+  standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+ 
  
 }

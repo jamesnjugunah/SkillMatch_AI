@@ -1,0 +1,103 @@
+<!-- header.component.html -->
+<header>
+    <div class="header-container">
+      <div class="logo">
+        <i class="fas fa-briefcase"></i>
+        <span>JobConnect</span>
+      </div>
+  
+      <i class="fas fa-bars mobile-toggle" id="mobileToggle" (click)="toggleMobileMenu()"></i>
+  
+      <ul class="nav-links" [ngClass]="{'active': mobileMenuVisible}">
+        <li><a href="#" class="active">Find Jobs</a></li>
+        <li><a href="#">Companies</a></li>
+      </ul>
+  
+      <div class="user-actions">
+        <div class="dropdown">
+          <button class="icon-button" id="notificationsBtn" (click)="toggleNotifications($event)">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge" *ngIf="notifications.length > 0">{{notifications.length}}</span>
+          </button>
+          <div class="dropdown-content" id="notificationsDropdown" *ngIf="notificationsDropdownVisible">
+            <div class="dropdown-header">
+              <h3>Notifications</h3>
+              <a href="#" class="mark-read" (click)="markAllAsRead('notifications'); $event.preventDefault()">Mark all as read</a>
+            </div>
+            <div class="dropdown-item" *ngFor="let notification of notifications">
+              <div class="dropdown-icon">
+                <i [class]="notification.icon"></i>
+              </div>
+              <div class="dropdown-text">
+                <h4>{{notification.title}}</h4>
+                <p>{{notification.message}}</p>
+                <span class="dropdown-time">{{notification.time}}</span>
+              </div>
+            </div>
+            <div class="dropdown-footer">
+              <a href="#">View all notifications</a>
+            </div>
+          </div>
+        </div>
+  
+        <div class="dropdown">
+          <button class="icon-button" id="messagesBtn" (click)="toggleMessages($event)">
+            <i class="fas fa-envelope"></i>
+            <span class="notification-badge" *ngIf="messages.length > 0">{{messages.length}}</span>
+          </button>
+          <div class="dropdown-content" id="messagesDropdown" *ngIf="messagesDropdownVisible">
+            <div class="dropdown-header">
+              <h3>Messages</h3>
+              <a href="#" class="mark-read" (click)="markAllAsRead('messages'); $event.preventDefault()">Mark all as read</a>
+            </div>
+            <div class="dropdown-item" *ngFor="let message of messages">
+              <div class="dropdown-icon">
+                <i [class]="message.icon"></i>
+              </div>
+              <div class="dropdown-text">
+                <h4>{{message.title}}</h4>
+                <p>{{message.message}}</p>
+                <span class="dropdown-time">{{message.time}}</span>
+              </div>
+            </div>
+            <div class="dropdown-footer">
+              <a href="#">View all messages</a>
+            </div>
+          </div>
+        </div>
+  
+        <div class="dropdown">
+          <img src="/api/placeholder/40/40" alt="Profile" class="profile-img" id="profileBtn" (click)="toggleProfile($event)">
+          <div class="dropdown-content" id="profileDropdown" *ngIf="profileDropdownVisible">
+            <div class="dropdown-item">
+              <div class="dropdown-icon">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="dropdown-text">
+                <h4>My Profile</h4>
+                <p>View and edit your profile</p>
+              </div>
+            </div>
+            <div class="dropdown-item">
+              <div class="dropdown-icon">
+                <i class="fas fa-cog"></i>
+              </div>
+              <div class="dropdown-text">
+                <h4>Account Settings</h4>
+                <p>Manage your account preferences</p>
+              </div>
+            </div>
+            <div class="dropdown-item">
+              <div class="dropdown-icon">
+                <i class="fas fa-sign-out-alt"></i>
+              </div>
+              <div class="dropdown-text">
+                <h4>Sign Out</h4>
+                <p>Log out of your account</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
