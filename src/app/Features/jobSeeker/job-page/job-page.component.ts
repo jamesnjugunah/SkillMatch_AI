@@ -18,9 +18,7 @@ interface MenuItem {
 })
 export class JobPageComponent {
   menuItems: MenuItem[] = [
-    { path: '/dashboard', label: 'Dashboard', icon: 'fas fa-home', active: true },
-    { path: '/my-jobs', label: 'My Jobs', icon: 'fas fa-briefcase', active: false },
-    // Add other menu items here
+   
   ];
 
   setActive(selectedItem: MenuItem): void {

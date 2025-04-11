@@ -1,4 +1,3 @@
-// app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { JobPageComponent } from './Features/jobSeeker/job-page/job-page.component';
@@ -11,11 +10,7 @@ import { InterviewCalendarComponent } from './Features/jobSeeker/Pages/interview
 import { ProfileComponent } from './Features/jobSeeker/Pages/profile/profile.component';
 import { SettingsComponent } from './Features/jobSeeker/Pages/settings/settings.component';
 
-
-
-
-
-export const routes: Routes = [
+const routes: Routes = [
   {
     path: '',
     component: JobPageComponent,
@@ -29,10 +24,12 @@ export const routes: Routes = [
       { path: 'interview-calendar', component: InterviewCalendarComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'settings', component: SettingsComponent }
-
     ]
   }
 ];
 
-
-
+@NgModule({
+  imports: [RouterModule.forRoot(routes)], // Only forRoot here, nowhere else
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

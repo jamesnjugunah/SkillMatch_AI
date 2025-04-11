@@ -15,10 +15,11 @@ export class SideBarComponent {
     { path: '/my-jobs', icon: 'fas fa-briefcase', label: 'My Jobs', active: false },
     { path: '/applications', icon: 'fas fa-file-alt', label: 'Applications', active: false },
     { path: '/career-path', icon: 'fas fa-calendar-alt', label: 'Career Path', active: false },
+    { path: '/help', icon: 'fas fa-question-circle', label: 'Help & Support', active: false },
     { path: '/profile', icon: 'fas fa-user', label: 'Profile', active: false },
     { path: '/interview-calendar', icon: 'fas fa-calendar', label: 'Interview Calendar', active: false },
     { path: '/settings', icon: 'fas fa-cog', label: 'Settings', active: false },
-    { path: '/help', icon: 'fas fa-question-circle', label: 'Help & Support', active: false }
+    
   ];
 
   setActive(item: any): void {
