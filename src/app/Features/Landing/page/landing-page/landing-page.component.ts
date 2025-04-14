@@ -15,5 +15,6 @@ import { FooterComponent } from '../../Components/footer/footer.component';
   styleUrl: './landing-page.component.css'
 })
 export class LandingPageComponent {
+  
 
 }

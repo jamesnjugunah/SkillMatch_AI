@@ -1,0 +1,178 @@
+<!-- candidates.component.html -->
+<div class="container px-4 py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1>Candidates</h1>
+      <button class="btn btn-primary">
+        <i class="bi bi-plus-circle me-2"></i>Add Candidate
+      </button>
+    </div>
+  
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Search candidates or skills..." 
+                [(ngModel)]="searchTerm"
+              >
+            </div>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select" [(ngModel)]="selectedPosition">
+              <option *ngFor="let position of positionOptions" [value]="position">
+                {{ position }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select" [(ngModel)]="selectedStage">
+              <option *ngFor="let stage of stageOptions" [value]="stage">
+                {{ stage }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-2 text-end">
+            <div class="btn-group" role="group">
+              <button 
+                type="button" 
+                class="btn" 
+                [ngClass]="{'btn-primary': viewMode === 'grid', 'btn-outline-primary': viewMode !== 'grid'}"
+                (click)="viewMode = 'grid'"
+              >
+                <i class="bi bi-grid-3x3-gap"></i>
+              </button>
+              <button 
+                type="button" 
+                class="btn" 
+                [ngClass]="{'btn-primary': viewMode === 'table', 'btn-outline-primary': viewMode !== 'table'}"
+                (click)="viewMode = 'table'"
+              >
+                <i class="bi bi-list-ul"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Grid View -->
+    <div *ngIf="viewMode === 'grid'" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div class="col" *ngFor="let candidate of filteredCandidates">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+              <div class="candidate-avatar me-3">
+                <img [src]="candidate.imageUrl" alt="{{ candidate.name }}" class="rounded-circle" width="50" height="50">
+              </div>
+              <div>
+                <h5 class="card-title mb-0">{{ candidate.name }}</h5>
+                <p class="text-muted mb-0">{{ candidate.position }}</p>
+              </div>
+              <div class="ms-auto">
+                <span class="badge bg-primary rounded-pill">{{ candidate.stage }}</span>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <small class="text-muted">Rating</small>
+                <small>{{ candidate.rating }}/5</small>
+              </div>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar" role="progressbar" [style.width]="(candidate.rating / 5 * 100) + '%'"></div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <small class="text-muted">Applied: {{ candidate.appliedDate | date:'mediumDate' }}</small><br>
+              <small class="text-muted">Source: {{ candidate.source }}</small>
+            </div>
+            
+            <div>
+              <span *ngFor="let tag of candidate.tags" class="badge bg-light text-dark me-1 mb-1">{{ tag }}</span>
+            </div>
+          </div>
+          <div class="card-footer bg-transparent border-top-0">
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-sm btn-outline-primary">View Profile</button>
+              <div class="btn-group">
+                <button class="btn btn-sm btn-outline-secondary">
+                  <i class="bi bi-envelope"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Table View -->
+    <div *ngIf="viewMode === 'table'" class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Candidate</th>
+            <th>Position</th>
+            <th>Stage</th>
+            <th>Rating</th>
+            <th>Applied Date</th>
+            <th>Source</th>
+            <th>Skills</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let candidate of filteredCandidates">
+            <td>
+              <div class="d-flex align-items-center">
+                <img [src]="candidate.imageUrl" alt="{{ candidate.name }}" class="rounded-circle me-2" width="40" height="40">
+                <span>{{ candidate.name }}</span>
+              </div>
+            </td>
+            <td>{{ candidate.position }}</td>
+            <td>
+              <span class="badge bg-primary rounded-pill">{{ candidate.stage }}</span>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="me-2">{{ candidate.rating }}</div>
+                <div class="progress flex-grow-1" style="height: 6px;">
+                  <div class="progress-bar" role="progressbar" [style.width]="(candidate.rating / 5 * 100) + '%'"></div>
+                </div>
+              </div>
+            </td>
+            <td>{{ candidate.appliedDate | date:'shortDate' }}</td>
+            <td>{{ candidate.source }}</td>
+            <td>
+              <span *ngFor="let tag of candidate.tags" class="badge bg-light text-dark me-1">{{ tag }}</span>
+            </td>
+            <td>
+              <div class="btn-group">
+                <button class="btn btn-sm btn-outline-primary">
+                  <i class="bi bi-person"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-success">
+                  <i class="bi bi-envelope"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <div *ngIf="filteredCandidates.length === 0" class="text-center py-5">
+      <div class="display-6 text-muted">No candidates found</div>
+      <p class="mt-3">Adjust your filters or add a new candidate.</p>
+    </div>
+  </div>

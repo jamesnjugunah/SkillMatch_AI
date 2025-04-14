@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,6 +8,16 @@ import { Component } from '@angular/core';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  constructor(public authService: AuthService) {}
+
+  openLoginDialog(): void {
+    this.authService.openLoginDialog();
+  }
+  
+  openRegisterDialog(): void {
+    this.authService.openRegisterDialog();
+  }
+
   
 
 }

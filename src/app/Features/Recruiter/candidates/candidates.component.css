@@ -1,0 +1,72 @@
+/* candidates.component.scss */
+
+
+.card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+}
+
+
+.progress {
+  background-color: #e9ecef;
+  
+  .progress-bar {
+    background-color: #0d6efd;
+  }
+}
+
+
+.badge.bg-light {
+  color: #212529;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+}
+
+
+.candidate-avatar img {
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.table {
+  th, td {
+    vertical-align: middle;
+  }
+  
+  img {
+    object-fit: cover;
+  }
+}
+
+
+.input-group-text {
+  background-color: #fff;
+  border-right: 0;
+}
+
+.input-group .form-control {
+  border-left: 0;
+}
+
+.form-select, .form-control {
+  &:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    border-color: #86b7fe;
+  }
+}
+
+
+.btn-group .btn {
+  &.btn-outline-primary {
+    &:hover {
+      color: #fff;
+      background-color: #0d6efd;
+    }
+  }
+}

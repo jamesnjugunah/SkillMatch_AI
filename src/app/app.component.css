@@ -1,0 +1,19 @@
+/* app.component.scss */
+
+.app-container {
+    display: flex;
+  }
+  
+  .main-content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 1rem;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+  }
+  
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 70px;
+    }
+  }
