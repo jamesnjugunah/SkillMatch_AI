@@ -1,83 +1,96 @@
 // components/register-dialog/register-dialog.component.ts
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
+import { LoginDialogComponent } from '../login-modal/login-modal.component'; 
 
 @Component({
   selector: 'app-register-dialog',
+  imports:[ ReactiveFormsModule,CommonModule, FormsModule],
   templateUrl: './register-modal.component.html',
   styleUrls: ['./register-modal.component.css']
 })
 export class RegisterDialogComponent {
+  @Output() close = new EventEmitter<void>();
+  
+  activeTab: 'jobseeker' | 'employer' | 'admin' = 'jobseeker';
   registerForm: FormGroup;
-  isLoading = false;
-  errorMessage = '';
-  hidePassword = true;
-  hideConfirmPassword = true;
-  userTypes = ['jobseeker', 'recruiter'];
   
   constructor(
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<RegisterDialogComponent>,
-    private authService: AuthService
+    private fb: FormBuilder, 
+    private elementRef: ElementRef,
+    private dialogRef: MatDialogRef<RegisterDialogComponent>
   ) {
     this.registerForm = this.fb.group({
-      fullName: ['', [Validators.required]],
+      fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      userType: ['jobseeker', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
-    }, { validators: this.checkPasswords });
+      password: ['', [
+        Validators.required, 
+        Validators.minLength(8),
+        Validators.pattern(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/)
+      ]],
+      confirmPassword: ['', Validators.required],
+      termsAgree: [false, Validators.requiredTrue]
+    }, { 
+      validators: this.passwordMatchValidator 
+    });
   }
 
-  // Custom validator to check if passwords match
-  checkPasswords(group: FormGroup) {
-    const password = group.get('password')?.value;
-    const confirmPassword = group.get('confirmPassword')?.value;
+  passwordMatchValidator(form: FormGroup) {
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
     
-    return password === confirmPassword ? null : { notMatching: true };
-  }
-  
-  get fullName() { return this.registerForm.get('fullName'); }
-  get email() { return this.registerForm.get('email'); }
-  get userType() { return this.registerForm.get('userType'); }
-  get password() { return this.registerForm.get('password'); }
-  get confirmPassword() { return this.registerForm.get('confirmPassword'); }
-  
-  register(): void {
-    if (this.registerForm.invalid) {
-      return;
+    if (password !== confirmPassword) {
+      form.get('confirmPassword')?.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
     }
     
-    this.isLoading = true;
-    this.errorMessage = '';
-    
-    const userData = {
-      fullName: this.fullName?.value,
-      email: this.email?.value,
-      userType: this.userType?.value,
-      password: this.password?.value
-    };
-    
-    this.authService.register(userData)
-      .subscribe({
-        next: () => {
-          this.isLoading = false;
-          this.dialogRef.close(true);
-        },
-        error: (err) => {
-          this.isLoading = false;
-          this.errorMessage = err.error?.message || 'Registration failed. Please try again.';
-        }
-      });
+    return null;
   }
-  
-  openLogin(): void {
-    this.dialogRef.close('login');
+
+  setActiveTab(tab: 'jobseeker' | 'employer' | 'admin'): void {
+    this.activeTab = tab;
   }
-  
-  cancel(): void {
+
+  onSubmit(): void {
+    if (this.registerForm.valid) {
+      console.log('Form submitted:', this.registerForm.value);
+      // Here you would typically call your authentication service
+    } else {
+      // Mark all fields as touched to trigger validation messages
+      this.markFormGroupTouched(this.registerForm);
+    }
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      
+      if ((control as any).controls) {
+        this.markFormGroupTouched(control as FormGroup);
+      }
+    });
+  }
+
+  @HostListener('click', ['$event'])
+  onOverlayClick(event: MouseEvent) {
+    // Check if the click was directly on the overlay (not its children)
+    if (event.target === this.elementRef.nativeElement.querySelector('.modal-overlay')) {
+      this.closeModal();
+    }
+  }
+  // Close button click handler
+  closeModal(): void {
     this.dialogRef.close();
   }
+  switchToLogin(): void {
+    // Emit an event that can be caught by the parent to switch to login
+    // Or implement your own login navigation logic
+    console.log('Switch to login clicked');
+  }
+
 }

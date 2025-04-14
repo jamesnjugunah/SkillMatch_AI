@@ -1,0 +1,96 @@
+<!-- dashboard.component.html -->
+<div class="dashboard-container">
+    <div class="page-header">
+      <h1>Dashboard</h1>
+      <p>System metrics and status overview</p>
+    </div>
+    
+    <div class="metrics-grid">
+      <div class="metric-card" *ngFor="let metric of systemMetrics" (click)="showDetails(metric)">
+        <div class="metric-header">
+          <h3>{{metric.name}}</h3>
+          <span class="status-indicator" [ngClass]="getStatusClass(metric.status)"></span>
+        </div>
+        <div class="metric-value">
+          {{metric.value}} <span class="unit">{{metric.unit}}</span>
+        </div>
+        <div class="metric-trend">
+          <i class="fa" [ngClass]="getTrendIcon(metric.trend)"></i>
+          <span>{{metric.trend | titlecase}}</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section-header">
+      <h2>Server Status</h2>
+      <button class="refresh-btn">
+        <i class="fa fa-sync"></i> Refresh
+      </button>
+    </div>
+    
+    <div class="server-status-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Server</th>
+            <th>Status</th>
+            <th>Uptime</th>
+            <th>Last Restart</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let server of serverStatuses">
+            <td>{{server.name}}</td>
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(server.status)">
+                {{server.status | titlecase}}
+              </span>
+            </td>
+            <td>{{server.uptime}}</td>
+            <td>{{server.lastRestart}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Metric Details Dialog -->
+    <div class="dialog-overlay" *ngIf="showDetailsDialog" (click)="closeDialog()">
+      <div class="dialog-content" (click)="$event.stopPropagation()">
+        <div class="dialog-header">
+          <h2>{{selectedMetric?.name}} Details</h2>
+          <button class="close-btn" (click)="closeDialog()">
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+        <div class="dialog-body">
+          <div class="metric-details" *ngIf="selectedMetric">
+            <div class="detail-row">
+              <span class="label">Current Value:</span>
+              <span class="value">{{selectedMetric.value}} {{selectedMetric.unit}}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Status:</span>
+              <span class="value" [ngClass]="getStatusClass(selectedMetric.status)">
+                {{selectedMetric.status | titlecase}}
+              </span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Trend:</span>
+              <span class="value">
+                <i class="fa" [ngClass]="getTrendIcon(selectedMetric.trend)"></i>
+                {{selectedMetric.trend | titlecase}}
+              </span>
+            </div>
+            
+            <!-- Placeholder for a chart -->
+            <div class="metric-chart">
+              <p>Historical data chart would appear here</p>
+            </div>
+          </div>
+        </div>
+        <div class="dialog-footer">
+          <button class="primary-btn" (click)="closeDialog()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

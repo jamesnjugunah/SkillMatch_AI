@@ -7,7 +7,7 @@ import { Chart} from 'chart.js'
   selector: 'app-analytics',
   imports: [ CommonModule, FormsModule],
   templateUrl: './analytics.component.html',
-  styleUrls: ['./analytics.component.scss']
+  styleUrls: ['./analytics.component.css']
 })
 export class AnalyticsComponent implements OnInit {
   // Time period selection

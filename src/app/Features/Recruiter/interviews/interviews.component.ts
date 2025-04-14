@@ -22,7 +22,7 @@ interface Interview {
   selector: 'app-interviews',
   imports: [CommonModule, FormsModule],
   templateUrl: './interviews.component.html',
-  styleUrls: ['./interviews.component.scss']
+  styleUrls: ['./interviews.component.css']
 })
 export class InterviewsComponent implements OnInit {
   interviews: Interview[] = [

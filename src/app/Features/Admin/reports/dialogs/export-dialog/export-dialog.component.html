@@ -1,0 +1,54 @@
+<!-- export-dialog.component.html -->
+<h2 mat-dialog-title>Export Report</h2>
+<mat-dialog-content>
+  <form [formGroup]="exportForm">
+    <div class="format-selection">
+      <h3>Format</h3>
+      <mat-radio-group formControlName="format" class="format-radio-group">
+        <mat-radio-button *ngFor="let format of formats" [value]="format.value">
+          {{format.label}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    
+    <div class="sections-selection">
+      <h3>Include Sections</h3>
+      <div class="section-list">
+        <mat-checkbox *ngFor="let section of sections" 
+                     [checked]="section.selected"
+                     (change)="toggleSection(section)">
+          {{section.label}}
+        </mat-checkbox>
+      </div>
+    </div>
+    
+    <div class="options">
+      <mat-checkbox formControlName="includeFilters">
+        Include applied filters in report
+      </mat-checkbox>
+    </div>
+    
+    <div class="filters-preview" *ngIf="exportForm.get('includeFilters')?.value">
+      <h4>Current Filters</h4>
+      <div class="filter-chip-list">
+        <mat-chip-set>
+          <mat-chip *ngIf="data.filters.startDate && data.filters.endDate">
+            Date Range: {{data.filters.startDate}} to {{data.filters.endDate}}
+          </mat-chip>
+          <mat-chip *ngIf="data.filters.userType !== 'all'">
+            User Type: {{data.filters.userType === 'jobseeker' ? 'Job Seekers' : 'Recruiters'}}
+          </mat-chip>
+          <mat-chip *ngIf="data.filters.region !== 'all'">
+            Region: {{data.filters.region}}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="exportReport()">
+    Export
+  </button>
+</mat-dialog-actions>

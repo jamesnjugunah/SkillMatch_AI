@@ -1,24 +1,76 @@
-// app.module.ts
+import { Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from '../app/Features/Recruiter/dashboard/dashboard.component';
+import { RouterModule } from '@angular/router';
+import { JobPageComponent } from './Features/jobSeeker/job-page/job-page.component';
+import { EmployerComponent } from './Features/Recruiter/employer/employer.component';
+import { AdminPageComponent } from './Features/Admin/admin-page/admin-page.component';
+import { RecruiterGuard } from './guards/Recruiter.guard';
 
-// Remove all component imports that are standalone
+// Guard imports
+import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
+import { JobseekerGuard } from '../app/guards/Jobseeker.guard';
 
-const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent }
+import { LandingPageComponent } from './Features/Landing/page/landing-page/landing-page.component';
+
+export const routes: Routes = [
+     { 
+        path: '', 
+        component: LandingPageComponent 
+      },
+      
+      
+      { 
+        path: 'jobseekers', 
+        component: JobPageComponent, 
+        canActivate: [AuthGuard, JobseekerGuard] 
+      },
+      { 
+        path: 'Employer', 
+        component: EmployerComponent, 
+        canActivate: [AuthGuard, RecruiterGuard] 
+      },
+      { 
+        path: 'admin', 
+        component: AdminPageComponent, 
+        canActivate: [AuthGuard, AdminGuard] 
+      },
+    {
+        path: '',
+        loadComponent() {
+            return import('./Features/Landing/page/landing-page/landing-page.component').then(({ LandingPageComponent }) => LandingPageComponent);
+        },
+    },
+
+    // {
+    //     path: 'features',
+    //     loadComponent() {
+    //         return import('./features/features.component').then(({ FeaturesComponent }) => FeaturesComponent);
+    //     },
+    // },
+//     {
+//         path: 'howitworks',
+//         loadComponent() {
+//             return import('./howitworks/howitworks.component').then(({ HowitworksComponent  }) =>HowitworksComponent );
+//         },
+//     },
+    
+    {
+        path: 'Recruiter',
+        loadChildren: () => import('../app/Features/Recruiter/Recruiter.routes').then(m => m.RECRUITER_ROUTES)
+    },
+    {
+        path: 'jobseeker',
+        loadChildren: () => import('../app/Features/jobSeeker/jobSeeker.routes').then(m => m.jobSeekerRoutes)
+    },
+    {
+        path: 'admin',
+        loadChildren: () => import('../app/Features/Admin/admin.route').then(m => m.adminRoutes)
+    },
+  
+    { 
+        path: '**', 
+        redirectTo: '' 
+      }
+      
 ];
-
-@NgModule({
-  // No declarations for standalone components
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot(routes)
-    // Import your standalone components here if needed
-  ],
-  providers: []
-  // Remove bootstrap array completely
-})
-export class AppModule { }

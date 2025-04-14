@@ -1,0 +1,13 @@
+/* layout.component.css */
+.main-content {
+    margin-left: 250px;
+    margin-top: 60px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    min-height: calc(100vh - 60px);
+    background-color: #f5f7fa;
+  }
+  
+  .main-content.expanded {
+    margin-left: 60px;
+  }

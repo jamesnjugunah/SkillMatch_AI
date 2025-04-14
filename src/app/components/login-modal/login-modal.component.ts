@@ -1,60 +1,73 @@
-// components/login-dialog/login-dialog.component.ts
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output, HostListener, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../../core/services/auth.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login-dialog',
+  imports: [  ReactiveFormsModule, CommonModule, FormsModule],
   templateUrl: './login-modal.component.html',
-  styleUrls: ['./login-modal.component.scss']
+  styleUrls: ['./login-modal.component.css']
 })
 export class LoginDialogComponent {
+  @Output() close = new EventEmitter<void>();
+  @Output() switchToRegister = new EventEmitter<void>();
+  
   loginForm: FormGroup;
-  isLoading = false;
-  errorMessage = '';
-  hidePassword = true; // For password toggle visibility
-
+  
   constructor(
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<LoginDialogComponent>,
-    private authService: AuthService
+    private fb: FormBuilder, 
+    private elementRef: ElementRef,
+    private dialogRef: MatDialogRef<LoginDialogComponent>
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      rememberMe: [false]
     });
   }
 
-  get email() { return this.loginForm.get('email'); }
-  get password() { return this.loginForm.get('password'); }
-  
-  login(): void {
-    if (this.loginForm.invalid) {
-      return;
+  onSubmit(): void {
+    if (this.loginForm.valid) {
+      console.log('Login form submitted:', this.loginForm.value);
+      // Here you would typically call your authentication service
+    } else {
+      // Mark all fields as touched to trigger validation messages
+      this.markFormGroupTouched(this.loginForm);
     }
-    
-    this.isLoading = true;
-    this.errorMessage = '';
-    
-    this.authService.login(this.email?.value, this.password?.value)
-      .subscribe({
-        next: () => {
-          this.isLoading = false;
-          this.dialogRef.close(true);
-        },
-        error: (err) => {
-          this.isLoading = false;
-          this.errorMessage = err.error?.message || 'Login failed. Please check your credentials.';
-        }
-      });
   }
-  
-  openRegister(): void {
-    this.dialogRef.close('register');
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      
+      if ((control as any).controls) {
+        this.markFormGroupTouched(control as FormGroup);
+      }
+    });
   }
-  
-  cancel(): void {
+
+  @HostListener('click', ['$event'])
+  onOverlayClick(event: MouseEvent) {
+    // Check if the click was directly on the overlay (not its children)
+    if (event.target === this.elementRef.nativeElement.querySelector('.modal-overlay')) {
+      this.closeModal();
+    }
+  }
+  // Close button click handler
+  closeModal(): void {
     this.dialogRef.close();
+  }
+
+  forgotPassword(event: Event): void {
+    event.preventDefault();
+    // Implement password reset functionality
+    console.log('Forgot password clicked');
+  }
+  onSwitchToRegister(event: MouseEvent): void {
+    this.switchToRegister.emit();
   }
 }

@@ -1,0 +1,23 @@
+<!-- header.component.html -->
+<header class="header">
+    <div class="logo">
+      <h1>Admin Panel</h1>
+    </div>
+    <div class="search">
+      <input type="text" placeholder="Search...">
+      <button type="button">
+        <i class="fa fa-search"></i>
+      </button>
+    </div>
+    <div class="header-right">
+      <button class="notification-btn" (click)="toggleNotifications()">
+        <i class="fa fa-bell"></i>
+        <span class="badge" *ngIf="notifications > 0">{{notifications}}</span>
+      </button>
+      <div class="user-profile" (click)="openUserMenu()">
+        <img src="assets/user-avatar.png" alt="User Avatar">
+        <span>{{userName}}</span>
+        <i class="fa fa-chevron-down"></i>
+      </div>
+    </div>
+  </header>

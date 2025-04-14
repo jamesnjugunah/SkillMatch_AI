@@ -1,0 +1,33 @@
+<!-- sidebar.component.html -->
+<div class="sidebar" [class.collapsed]="collapsed">
+  <div class="sidebar-header">
+    <button (click)="toggleSidebar()" class="toggle-btn">
+      <i class="fa" [ngClass]="collapsed ? 'fa-angle-right' : 'fa-angle-left'"></i>
+    </button>
+  </div>
+  
+  <ul class="nav-menu">
+    <li *ngFor="let item of menuItems; let i = index" 
+        [class.active]="item.active"
+        (click)="setActive(i)">
+      <a href="javascript:void(0)">
+        <i class="fa" [ngClass]="item.icon"></i>
+        <span *ngIf="!collapsed">{{item.title}}</span>
+      </a>
+    </li>
+  </ul>
+  
+  <div class="sidebar-footer" *ngIf="!collapsed">
+    <div class="user-info">
+      <img src="assets/user-avatar.png" alt="User Avatar">
+      <div class="user-details">
+        <h4>Admin User</h4>
+        <p>Super Admin</p>
+      </div>
+    </div>
+    <button class="logout-btn">
+      <i class="fa fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </button>
+  </div>
+</div>

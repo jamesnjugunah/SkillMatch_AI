@@ -15,7 +15,7 @@ export class JobseekerGuard implements CanActivate {
     
     // Redirect to appropriate page based on user type
     if (this.authService.isRecruiter()) {
-      this.router.navigate(['/recruiters']);
+      this.router.navigate(['/recruiter']);
     } else if (this.authService.isAdmin()) {
       this.router.navigate(['/admin']);
     } else {

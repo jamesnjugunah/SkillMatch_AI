@@ -1,0 +1,89 @@
+<div class="job-preview-dialog">
+    <h2 mat-dialog-title>
+      <span class="job-title">{{data.job.title}}</span>
+      <span class="close-button">
+        <button mat-icon-button (click)="onClose()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </span>
+    </h2>
+    
+    <mat-dialog-content>
+      <div class="job-header">
+        <div class="company-details">
+          <h3>{{data.job.company}}</h3>
+          <p class="location"><mat-icon>location_on</mat-icon> {{data.job.location}}</p>
+        </div>
+        
+        <div class="job-meta">
+          <div class="job-type">
+            <span class="meta-label">Job Type:</span>
+            <span class="job-type-chip" [ngClass]="data.job.jobType.toLowerCase().replace('-', '')">
+              {{data.job.jobType}}
+            </span>
+          </div>
+          <div class="experience-level">
+            <span class="meta-label">Experience:</span>
+            <span>{{data.job.experienceLevel}}</span>
+          </div>
+          <div class="application-deadline">
+            <span class="meta-label">Application Deadline:</span>
+            <span>{{formatDate(data.job.applicationDeadline)}}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="job-content">
+        <div class="job-section">
+          <h4>Salary</h4>
+          <p>{{formatSalary(data.job.salary)}}</p>
+        </div>
+        
+        <div class="job-section">
+          <h4>Skills Required</h4>
+          <div class="skills-list">
+            <div class="skill-chip" *ngFor="let skill of data.job.skillsRequired">{{skill}}</div>
+          </div>
+        </div>
+        
+        <div class="job-section" *ngIf="data.job.description">
+          <h4>Job Description</h4>
+          <p [innerHTML]="data.job.description"></p>
+        </div>
+        
+        <div class="job-section" *ngIf="data.job.responsibilities">
+          <h4>Responsibilities</h4>
+          <p [innerHTML]="data.job.responsibilities"></p>
+        </div>
+        
+        <div class="job-section" *ngIf="data.job.requirements">
+          <h4>Requirements</h4>
+          <p [innerHTML]="data.job.requirements"></p>
+        </div>
+        
+        <div class="job-section" *ngIf="data.job.benefits">
+          <h4>Benefits</h4>
+          <p [innerHTML]="data.job.benefits"></p>
+        </div>
+      </div>
+      
+      <div class="application-info" *ngIf="data.job.contactEmail || data.job.applicationUrl">
+        <h4>How to Apply</h4>
+        <p *ngIf="data.job.contactEmail">
+          <strong>Contact Email:</strong> {{data.job.contactEmail}}
+        </p>
+        <p *ngIf="data.job.applicationUrl">
+          <strong>Application URL:</strong> <a [href]="data.job.applicationUrl" target="_blank">{{data.job.applicationUrl}}</a>
+        </p>
+      </div>
+      
+      <div class="job-status">
+        <span class="status-badge" [ngClass]="data.job.status.toLowerCase()">{{data.job.status}}</span>
+        <span class="posting-date">Posted on {{formatDate(data.job.datePosted)}}</span>
+      </div>
+    </mat-dialog-content>
+    
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="onClose()">Close</button>
+    </mat-dialog-actions>
+  </div>

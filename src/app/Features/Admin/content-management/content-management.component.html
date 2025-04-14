@@ -1,0 +1,160 @@
+<!-- content-management.component.html -->
+<div class="content-management-container">
+    <div class="page-header">
+      <h1>Content Management</h1>
+      <p>Manage job postings and employer content</p>
+    </div>
+  
+    <div class="action-bar">
+      <div class="filters">
+        <div class="search-field">
+          <mat-form-field appearance="outline">
+            <mat-label>Search</mat-label>
+            <input matInput [(ngModel)]="searchQuery" placeholder="Search job titles, companies, locations..." (keyup)="applyFilter()">
+            <button *ngIf="searchQuery" matSuffix mat-icon-button aria-label="Clear" (click)="searchQuery=''; applyFilter()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        
+        <div class="filter-dropdowns">
+          <mat-form-field appearance="outline">
+            <mat-label>Job Type</mat-label>
+            <mat-select [(ngModel)]="selectedJobType" (selectionChange)="applyFilter()">
+              <mat-option value="">All Types</mat-option>
+              <mat-option *ngFor="let type of jobTypes" [value]="type">{{type}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Experience Level</mat-label>
+            <mat-select [(ngModel)]="selectedExperienceLevel" (selectionChange)="applyFilter()">
+              <mat-option value="">All Levels</mat-option>
+              <mat-option *ngFor="let level of experienceLevels" [value]="level">{{level}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="selectedStatus" (selectionChange)="applyFilter()">
+              <mat-option value="">All Statuses</mat-option>
+              <mat-option *ngFor="let status of statusFilters" [value]="status">{{status}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <button mat-stroked-button color="primary" (click)="resetFilters()" [disabled]="!searchQuery && !selectedJobType && !selectedExperienceLevel && !selectedStatus">
+            <mat-icon>filter_alt_off</mat-icon> Reset Filters
+          </button>
+        </div>
+      </div>
+      
+      <div class="actions">
+        <button mat-raised-button color="primary" (click)="openAddJobDialog()">
+          <mat-icon>add</mat-icon> Post New Job
+        </button>
+      </div>
+    </div>
+  
+    <div class="table-container mat-elevation-z2">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+          <td mat-cell *matCellDef="let job">{{job.id}}</td>
+        </ng-container>
+  
+        <!-- Title Column -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Job Title</th>
+          <td mat-cell *matCellDef="let job" class="job-title-cell">{{job.title}}</td>
+        </ng-container>
+  
+        <!-- Company Column -->
+        <ng-container matColumnDef="company">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Company</th>
+          <td mat-cell *matCellDef="let job">{{job.company}}</td>
+        </ng-container>
+  
+        <!-- Location Column -->
+        <ng-container matColumnDef="location">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+          <td mat-cell *matCellDef="let job">{{job.location}}</td>
+        </ng-container>
+  
+        <!-- Job Type Column -->
+        <ng-container matColumnDef="jobType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+          <td mat-cell *matCellDef="let job">
+            <span class="job-type-chip" [ngClass]="job.jobType.toLowerCase().replace('-', '')">{{job.jobType}}</span>
+          </td>
+        </ng-container>
+  
+        <!-- Experience Level Column -->
+        <ng-container matColumnDef="experienceLevel">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Experience</th>
+          <td mat-cell *matCellDef="let job">{{job.experienceLevel}}</td>
+        </ng-container>
+  
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let job">
+            <span class="status-badge" [ngClass]="job.status.toLowerCase()">{{job.status}}</span>
+          </td>
+        </ng-container>
+  
+        <!-- Date Posted Column -->
+        <ng-container matColumnDef="datePosted">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Posted</th>
+          <td mat-cell *matCellDef="let job">{{job.datePosted | date:'mediumDate'}}</td>
+        </ng-container>
+  
+        <!-- Application Deadline Column -->
+        <ng-container matColumnDef="applicationDeadline">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Deadline</th>
+          <td mat-cell *matCellDef="let job">{{job.applicationDeadline | date:'mediumDate'}}</td>
+        </ng-container>
+  
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let job">
+            <button mat-icon-button [matMenuTriggerFor]="statusMenu" matTooltip="Change Status">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #statusMenu="matMenu">
+              <button mat-menu-item *ngFor="let status of statusFilters" 
+                      [disabled]="job.status === status"
+                      (click)="changeJobStatus(job, status)">
+                {{status}}
+              </button>
+            </mat-menu>
+            
+            <button mat-icon-button color="primary" (click)="previewJob(job)" matTooltip="Preview">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            
+            <button mat-icon-button color="accent" (click)="openEditJobDialog(job)" matTooltip="Edit">
+              <mat-icon>edit</mat-icon>
+            </button>
+            
+            <button mat-icon-button color="warn" (click)="openDeleteJobDialog(job)" matTooltip="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        
+        <!-- Row shown when no matching data -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
+            No job postings found matching the current filters
+          </td>
+        </tr>
+      </table>
+  
+      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
