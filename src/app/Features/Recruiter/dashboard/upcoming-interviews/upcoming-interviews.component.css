@@ -1,0 +1,28 @@
+/* upcoming-interviews.component.scss */
+.task-list {
+    padding: 0.5rem 1rem;
+  }
+  
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .task-item:last-child {
+    border-bottom: none;
+  }
+  
+  .task-title {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  .task-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+  }

@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Upcoming Interviews</h2>
+      <div class="card-action" (click)="scheduleInterview()">
+        <span>Schedule</span>
+        <i class="fas fa-calendar-plus"></i>
+      </div>
+    </div>
+    
+    <div class="task-list">
+      <div class="task-item" *ngFor="let interview of interviews">
+        <div class="task-details">
+          <div class="task-title">{{ interview.candidateName }} - {{ interview.position }}</div>
+          <div class="task-meta">
+            <span><i class="fas fa-calendar"></i> {{ interview.date }}</span>
+            <span><i [class]="interview.typeIcon"></i> {{ interview.type }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

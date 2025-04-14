@@ -1,0 +1,32 @@
+<div class="card">
+    <div class="card-header">
+      <h2 class="card-title">AI Assistant</h2>
+      <div class="card-action" (click)="openSettings()">
+        <span>Settings</span>
+        <i class="fas fa-cog"></i>
+      </div>
+    </div>
+    
+    <div class="ai-assistant">
+      <div class="assistant-header">
+        <div class="assistant-icon">
+          <i class="fas fa-robot"></i>
+        </div>
+        <div>
+          <h3>Recruiting Assistant</h3>
+          <p>How can I help you today?</p>
+        </div>
+      </div>
+      
+      <div class="assistant-actions" *ngFor="let actionGroup of [0, 2]; let i = index">
+        <div class="assistant-action" 
+             *ngFor="let j of [0, 1]" 
+             (click)="assistantActions[i + j].action()"
+             [attr.data-action]="assistantActions[i + j].title">
+          <i [class]="assistantActions[i + j].icon"></i>
+          <div class="action-title">{{ assistantActions[i + j].title }}</div>
+          <div class="action-desc">{{ assistantActions[i + j].description }}</div>
+        </div>
+      </div>
+    </div>
+  </div>

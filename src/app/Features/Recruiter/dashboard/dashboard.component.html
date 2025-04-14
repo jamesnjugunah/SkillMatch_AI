@@ -1,0 +1,16 @@
+<h1 class="page-title">Recruiter Dashboard</h1>
+
+<!-- Stats Section -->
+<div class="stats-container">
+  <app-stats-card *ngFor="let stat of stats" [stat]="stat"></app-stats-card>
+</div>
+
+<!-- Main Dashboard Grid -->
+<div class="dashboard-grid">
+  <app-job-postings></app-job-postings>
+  <!-- <app-candidate-pipeline></app-candidate-pipeline> -->
+  <app-application-statistics></app-application-statistics>
+  <app-ai-assistance></app-ai-assistance>
+  <app-action-items></app-action-items>
+  <app-upcoming-interviews></app-upcoming-interviews>
+</div>

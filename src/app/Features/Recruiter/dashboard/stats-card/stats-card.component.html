@@ -1,0 +1,13 @@
+<div class="stat-card">
+    <div class="stat-header">
+      <div class="stat-icon" [ngClass]="stat.iconClass">
+        <i [class]="stat.icon"></i>
+      </div>
+      <div class="stat-change" [ngClass]="stat.increase ? 'stat-increase' : 'stat-decrease'">
+        <i [class]="stat.increase ? 'fas fa-arrow-up' : 'fas fa-arrow-down'"></i>
+        <span>{{ stat.change }}%</span>
+      </div>
+    </div>
+    <div class="stat-label">{{ stat.label }}</div>
+    <div class="stat-value">{{ stat.value }}</div>
+  </div>    

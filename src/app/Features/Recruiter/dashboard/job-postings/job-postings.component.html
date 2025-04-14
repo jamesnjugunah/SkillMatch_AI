@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Active Job Postings</h2>
+      <div class="card-action" (click)="viewAllJobs()">
+        <span>View All</span>
+        <i class="fas fa-chevron-right"></i>
+      </div>
+    </div>
+    
+    <div class="job-list">
+      <div class="job-item" *ngFor="let job of jobs">
+        <div class="job-details">
+          <div class="job-title">{{ job.title }}</div>
+          <div class="job-meta">
+            <span><i class="fas fa-map-marker-alt"></i> {{ job.location }}</span>
+            <span><i class="fas fa-clock"></i> {{ job.type }}</span>
+            <span><i class="fas fa-user-friends"></i> {{ job.applicants }} Applicants</span>
+          </div>
+        </div>
+        <div class="job-status" [ngClass]="'status-' + job.status">{{ job.status | titlecase }}</div>
+      </div>
+    </div>
+  </div>

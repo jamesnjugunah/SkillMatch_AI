@@ -1,0 +1,70 @@
+/* ai-assistant.component.scss */
+.ai-assistant {
+    padding: 1.25rem;
+  }
+  
+  .assistant-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .assistant-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 12px;
+    font-size: 1.25rem;
+  }
+  
+  .assistant-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  
+  .assistant-header p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+  
+  .assistant-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .assistant-action {
+    flex: 1;
+    padding: 1rem;
+    background-color: var(--bg-light);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .assistant-action:hover {
+    background-color: rgba(67, 97, 238, 0.1);
+    color: var(--primary-color);
+  }
+  
+  .assistant-action i {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .action-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .action-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }

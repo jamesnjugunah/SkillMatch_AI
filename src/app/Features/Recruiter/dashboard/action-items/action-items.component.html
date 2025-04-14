@@ -1,0 +1,29 @@
+<div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Action Items</h2>
+      <div class="card-action" (click)="addNewTask()">
+        <span>Add New</span>
+        <i class="fas fa-plus"></i>
+      </div>
+    </div>
+    
+    <div class="task-list">
+      <div class="task-item" *ngFor="let task of tasks">
+        <div class="task-checkbox">
+          <input type="checkbox" 
+                 [id]="task.id" 
+                 [checked]="task.completed"
+                 (change)="toggleTaskCompletion(task)">
+        </div>
+        <div class="task-details">
+          <div class="task-title" [class.completed]="task.completed">{{ task.title }}</div>
+          <div class="task-meta">
+            <span><i class="fas fa-calendar"></i> {{ task.dueDate }}</span>
+            <span class="task-priority" [ngClass]="'priority-' + task.priority">
+              {{ task.priority | titlecase }} Priority
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

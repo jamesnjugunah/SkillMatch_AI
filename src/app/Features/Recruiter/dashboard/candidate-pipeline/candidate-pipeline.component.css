@@ -1,0 +1,72 @@
+/* candidate-pipeline.component.scss */
+.pipeline-container {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+  
+  .pipeline-stage {
+    flex: 1;
+    min-width: 240px;
+    background-color: var(--bg-light);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+  }
+  
+  .stage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .stage-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+  
+  .stage-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: var(--bg-white);
+    border-radius: 50%;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+  
+  .candidate-card {
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .candidate-name {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  
+  .candidate-position {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+  
+  .candidate-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .candidate-tag {
+    padding: 0.125rem 0.5rem;
+    background-color: var(--bg-light);
+    color: var(--text-secondary);
+    border-radius: 999px;
+    font-size: 0.75rem;
+  }

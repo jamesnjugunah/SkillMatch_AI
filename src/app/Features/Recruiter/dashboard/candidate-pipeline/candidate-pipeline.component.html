@@ -1,0 +1,26 @@
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title">Candidate Pipeline</h2>
+    <div class="card-action" (click)="viewAllCandidates()">
+      <span>View All</span>
+      <i class="fas fa-chevron-right"></i>
+    </div>
+  </div>
+  
+  <div class="pipeline-container">
+    <div class="pipeline-stage" *ngFor="let stage of pipelineStages">
+      <div class="stage-header">
+        <div class="stage-title">{{ stage.title }}</div>
+        <div class="stage-count">{{ stage.count }}</div>
+      </div>
+      
+      <div class="candidate-card" *ngFor="let candidate of stage.candidates">
+        <div class="candidate-name">{{ candidate.name }}</div>
+        <div class="candidate-position">{{ candidate.position }}</div>
+        <div class="candidate-tags">
+          <span class="candidate-tag" *ngFor="let tag of candidate.tags">{{ tag }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

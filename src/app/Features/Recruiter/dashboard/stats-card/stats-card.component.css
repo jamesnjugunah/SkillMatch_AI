@@ -1,0 +1,63 @@
+/* stats-card.component.scss */
+.stat-card {
+    background-color: var(--bg-white);
+    padding: 1.25rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+  }
+  
+  .job-icon {
+    background-color: var(--primary-color);
+  }
+  
+  .candidate-icon {
+    background-color: var(--success-color);
+  }
+  
+  .interview-icon {
+    background-color: var(--warning-color);
+  }
+  
+  .stat-change {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  
+  .stat-increase {
+    color: #10b981; /* Green */
+  }
+  
+  .stat-decrease {
+    color: #ef4444; /* Red */
+  }
+  
+  .stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+  }
+  
+  .stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
