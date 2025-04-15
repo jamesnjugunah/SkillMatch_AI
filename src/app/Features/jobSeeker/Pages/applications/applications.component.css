@@ -1,282 +1,236 @@
+/* Base styles */
 .content-page {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 20px;
-  }
-  
-  .welcome-section {
-    margin-bottom: 24px;
-  }
-  
-  .welcome-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .welcome-message {
-    h2 {
-      margin: 0;
-      font-size: 26px;
-      font-weight: bold;
-    }
-    
-    p {
-      margin: 5px 0 0;
-      color: #3d3d3d;
-    }
-  }
-  
-  .application-filter {
-    select {
-      padding: 8px 12px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-      min-width: 160px;
-    }
-  }
-  
-  .content-section {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 24px;
-    margin-bottom: 24px;
-  }
-  
-  .applications-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
-  }
-  
-  .stat-card {
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    border-radius: 8px;
-    background-color: #f8f9fa;
-    
-    .stat-card-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: #e6f3ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 16px;
-      
-      i {
-        font-size: 18px;
-        color: #0078d4;
-      }
-    }
-    
-    .stat-card-details {
-      h3 {
-        margin: 0;
-        font-size: 24px;
-        font-weight: 600;
-      }
-      
-      p {
-        margin: 4px 0 0;
-        color: #666;
-        font-size: 14px;
-      }
-    }
-  }
-  
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    
-    .section-title {
-      font-size: 18px;
-      font-weight: 600;
-    }
-  }
-  
-  .search-filter {
-    .search-input {
-      padding: 8px 12px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-      min-width: 200px;
-    }
-  }
-  
-  .applications-table {
-    overflow-x: auto;
-    
-    .full-width-table {
-      width: 100%;
-      border-collapse: collapse;
-      
-      th, td {
-        padding: 12px 16px;
-        text-align: left;
-        border-bottom: 1px solid #e0e0e0;
-      }
-      
-      th {
-        font-weight: 600;
-        color: #666;
-        font-size: 14px;
-      }
-      
-      td {
-        font-size: 14px;
-      }
-      
-      .company-cell {
-        display: flex;
-        align-items: center;
-        
-        img {
-          width: 30px;
-          height: 30px;
-          border-radius: 4px;
-          margin-right: 8px;
-        }
-      }
-      
-      .status-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-        
-        i {
-          margin-right: 4px;
-        }
-        
-        &.status-review {
-          background-color: #f0f7ff;
-          color: #0062cc;
-        }
-        
-        &.status-interview {
-          background-color: #e8f5e9;
-          color: #2e7d32;
-        }
-        
-        &.status-rejected {
-          background-color: #ffebee;
-          color: #c62828;
-        }
-        
-        &.status-offer {
-          background-color: #e0f7fa;
-          color: #00838f;
-        }
-      }
-      
-      .table-actions {
-        display: flex;
-        gap: 8px;
-        
-        .icon-button {
-          width: 32px;
-          height: 32px;
-          border-radius: 4px;
-          border: none;
-          background-color: #f5f5f5;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: background-color 0.2s;
-          
-          &:hover {
-            background-color: #e0e0e0;
-          }
-          
-          i {
-            font-size: 14px;
-            color: #666;
-          }
-        }
-      }
-      
-      .no-results {
-        text-align: center;
-        color: #666;
-        padding: 20px;
-      }
-    }
-  }
-  
-  .deadline-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 16px;
-  }
-  
-  .deadline-card {
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    border-radius: 8px;
-    background-color: #f8f9fa;
-    border-left: 4px solid #0078d4;
-    
-    .deadline-date {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-right: 16px;
-      min-width: 50px;
-      
-      .deadline-day {
-        font-size: 20px;
-        font-weight: 600;
-        line-height: 1;
-      }
-      
-      .deadline-month {
-        font-size: 14px;
-        color: #666;
-      }
-    }
-    
-    .deadline-info {
-      flex: 1;
-      
-      h4 {
-        margin: 0;
-        font-size: 16px;
-        font-weight: 600;
-      }
-      
-      p {
-        margin: 4px 0 0;
-        color: #666;
-        font-size: 14px;
-      }
-    }
-    
-    .deadline-actions {
-      .job-action-btn {
-        padding: 6px 12px;
-        border-radius: 4px;
-        border: none;
-        font-size: 14px;
-        cursor: pointer;
-        
-        &.btn-primary {
-          background-color: #0078d4;
-          color: white;
-          
-          &:hover {
-            background-color: #0062a3;
-          }
-        }
-      }
-    }
-  }
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+}
+
+/* Welcome section */
+.welcome-section {margin-bottom: 24px;}
+.welcome-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.welcome-message h2 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: bold;
+}
+.welcome-message p {
+  margin: 5px 0 0;
+  color: #3d3d3d;
+}
+
+/* Filter and content sections */
+.application-filter select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  min-width: 160px;
+}
+
+.content-section {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+/* Stats section */
+.applications-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+}
+
+.stat-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e6f3ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+}
+.stat-card-icon i {
+  font-size: 18px;
+  color: #0078d4;
+}
+
+.stat-card-details h3 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+.stat-card-details p {
+  margin: 4px 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Section headers */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.section-title {font-size: 18px; font-weight: 600;}
+
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  min-width: 200px;
+}
+
+/* Table styles */
+.applications-table {overflow-x: auto;}
+.full-width-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.full-width-table th, .full-width-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 14px;
+}
+.full-width-table th {
+  font-weight: 600;
+  color: #666;
+}
+
+.company-cell {
+  display: flex;
+  align-items: center;
+}
+.company-cell img {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.status-badge i {margin-right: 4px;}
+.status-badge.status-review {
+  background-color: #f0f7ff;
+  color: #0062cc;
+}
+.status-badge.status-interview {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+.status-badge.status-rejected {
+  background-color: #ffebee;
+  color: #c62828;
+}
+.status-badge.status-offer {
+  background-color: #e0f7fa;
+  color: #00838f;
+}
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+}
+.icon-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: none;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.icon-button:hover {background-color: #e0e0e0;}
+.icon-button i {
+  font-size: 14px;
+  color: #666;
+}
+
+.no-results {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+}
+
+/* Deadline cards */
+.deadline-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.deadline-card {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  border-left: 4px solid #0078d4;
+}
+
+.deadline-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 16px;
+  min-width: 50px;
+}
+.deadline-day {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1;
+}
+.deadline-month {
+  font-size: 14px;
+  color: #666;
+}
+
+.deadline-info {flex: 1;}
+.deadline-info h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+.deadline-info p {
+  margin: 4px 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.job-action-btn {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+.job-action-btn.btn-primary {
+  background-color: #0078d4;
+  color: white;
+}
+.job-action-btn.btn-primary:hover {background-color: #0062a3;}

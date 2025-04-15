@@ -1,398 +1,409 @@
-/* interview-calendar.component.scss */
+/* interview-calendar.component.css - Optimized */
 
 .interview-calendar-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  
-    h1 {
-      font-size: 28px;
-      color: #333;
-    }
-  
-    .month-navigation {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-  
-      h2 {
-        font-size: 20px;
-        margin: 0;
-        min-width: 180px;
-        text-align: center;
-      }
-  
-      .nav-btn {
-        background: #f5f5f5;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 8px 12px;
-        cursor: pointer;
-        font-size: 16px;
-        
-        &:hover {
-          background: #e9e9e9;
-        }
-      }
-    }
-  }
-  
-  .calendar-container {
-    display: flex;
-    gap: 20px;
-    height: calc(100vh - 150px);
-    min-height: 600px;
-  }
-  
-  .calendar {
-    flex: 1;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  }
-  
-  .weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    background: #f5f5f5;
-    border-bottom: 1px solid #ddd;
-  
-    .weekday {
-      padding: 10px;
-      text-align: center;
-      font-weight: 600;
-      color: #555;
-    }
-  }
-  
-  .calendar-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-    height: calc(100% - 41px);
-  }
-  
-  .calendar-day {
-    border-right: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-    padding: 8px;
-    min-height: 80px;
-    cursor: pointer;
-    position: relative;
-    
-    &:hover {
-      background: #f9f9f9;
-    }
-    
-    &.other-month {
-      background: #f9f9f9;
-      color: #aaa;
-    }
-    
-    &.today {
-      background-color: #f0f7ff;
-      
-      .day-number {
-        background: #0078d4;
-        color: white;
-      }
-    }
-    
-    &.selected {
-      background-color: #e6f3ff;
-      border: 2px solid #0078d4;
-    }
-    
-    &.has-interview {
-      .interview-indicator {
-        margin-top: 5px;
-        display: flex;
-        gap: 3px;
-        flex-wrap: wrap;
-      }
-      
-      .dot {
-        height: 8px;
-        width: 8px;
-        background-color: #0078d4;
-        border-radius: 50%;
-        display: inline-block;
-      }
-      
-      .more-indicator {
-        font-size: 10px;
-        color: #0078d4;
-      }
-    }
-    
-    .day-number {
-      display: inline-block;
-      width: 25px;
-      height: 25px;
-      line-height: 25px;
-      text-align: center;
-      border-radius: 50%;
-    }
-  }
-  
-  .interviews-panel {
-    flex: 1;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .monthly-view, .daily-view {
-    padding: 20px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    
-    h3 {
-      margin-top: 0;
-      margin-bottom: 15px;
-      color: #333;
-    }
-  }
-  
-  .daily-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    
-    h3 {
-      margin: 0;
-    }
-  }
-  
-  .add-btn {
-    background: #0078d4;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: 600;
-    align-self: flex-start;
-    margin-bottom: 20px;
-    
-    &:hover {
-      background: #006bbe;
-    }
-  }
-  
-  .no-interviews {
-    text-align: center;
-    color: #777;
-    margin-top: 50px;
-    font-style: italic;
-  }
-  
-  .interview-list {
-    overflow-y: auto;
-    flex: 1;
-  }
-  
-  .interview-card {
-    background: #f9f9f9;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    
-    .interview-header {
-      margin-bottom: 10px;
-      
-      h4 {
-        margin: 0 0 5px 0;
-        color: #333;
-      }
-      
-      .position {
-        color: #666;
-        font-size: 14px;
-      }
-    }
-    
-    .interview-details {
-      margin-bottom: 15px;
-      
-      p {
-        margin: 5px 0;
-        font-size: 14px;
-      }
-    }
-    
-    .interview-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      
-      button {
-        padding: 6px 12px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-      }
-      
-      .edit-btn {
-        background: #f0f0f0;
-        color: #333;
-        
-        &:hover {
-          background: #e0e0e0;
-        }
-      }
-      
-      .delete-btn {
-        background: #f5f5f5;
-        color: #d32f2f;
-        
-        &:hover {
-          background: #ffebee;
-        }
-      }
-    }
-  }
-  
-  /* Modal styles */
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal-content {
-    background: white;
-    border-radius: 8px;
-    width: 500px;
-    max-width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  }
-  
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    border-bottom: 1px solid #eee;
-    
-    h3 {
-      margin: 0;
-      color: #333;
-    }
-    
-    .close {
-      font-size: 24px;
-      cursor: pointer;
-      color: #777;
-      
-      &:hover {
-        color: #333;
-      }
-    }
-  }
-  
-  form {
-    padding: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-    
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 600;
-      color: #555;
-    }
-    
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 14px;
-      
-      &:focus {
-        outline: none;
-        border-color: #0078d4;
-        box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.2);
-      }
-    }
-    
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-    
-    .error {
-      color: #d32f2f;
-      font-size: 12px;
-      margin-top: 5px;
-    }
-  }
-  
-  .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-    
-    button {
-      padding: 10px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    
-    .cancel-btn {
-      background: #f5f5f5;
-      border: 1px solid #ddd;
-      color: #333;
-      
-      &:hover {
-        background: #e9e9e9;
-      }
-    }
-    
-    .save-btn {
-      background: #0078d4;
-      border: none;
-      color: white;
-      
-      &:hover {
-        background: #006bbe;
-      }
-      
-      &:disabled {
-        background: #cccccc;
-        cursor: not-allowed;
-      }
-    }
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header styles */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-header h1 {
+  font-size: 28px;
+  color: #333;
+}
+
+.month-navigation {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.month-navigation h2 {
+  font-size: 20px;
+  margin: 0;
+  min-width: 180px;
+  text-align: center;
+}
+
+/* Common button styles */
+.btn {
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.nav-btn {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  font-size: 16px;
+}
+
+.nav-btn:hover {
+  background: #e9e9e9;
+}
+
+/* Calendar layout */
+.calendar-container {
+  display: flex;
+  gap: 20px;
+  height: calc(100vh - 150px);
+  min-height: 600px;
+}
+
+/* Shared panel styles */
+.panel {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.calendar, .interviews-panel {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Calendar grid styles */
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+}
+
+.weekday {
+  padding: 10px;
+  text-align: center;
+  font-weight: 600;
+  color: #555;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  height: calc(100% - 41px);
+}
+
+.calendar-day {
+  border-right: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 8px;
+  min-height: 80px;
+  cursor: pointer;
+  position: relative;
+}
+
+.calendar-day:hover {
+  background: #f9f9f9;
+}
+
+.calendar-day.other-month {
+  background: #f9f9f9;
+  color: #aaa;
+}
+
+.calendar-day.today {
+  background-color: #f0f7ff;
+}
+
+.calendar-day.today .day-number {
+  background: #0078d4;
+  color: white;
+}
+
+.calendar-day.selected {
+  background-color: #e6f3ff;
+  border: 2px solid #0078d4;
+}
+
+.day-number {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  border-radius: 50%;
+}
+
+/* Interview indicators */
+.interview-indicator {
+  margin-top: 5px;
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+
+.dot {
+  height: 8px;
+  width: 8px;
+  background-color: #0078d4;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.more-indicator {
+  font-size: 10px;
+  color: #0078d4;
+}
+
+/* Interviews panel styles */
+.interviews-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-view {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.monthly-view, .daily-view {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.daily-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.daily-header h3 {
+  margin: 0;
+}
+
+/* Button styles */
+.primary-btn {
+  background: #0078d4;
+  color: white;
+  border: none;
+}
+
+.primary-btn:hover {
+  background: #006bbe;
+}
+
+.add-btn {
+  padding: 8px 16px;
+  font-weight: 600;
+  align-self: flex-start;
+  margin-bottom: 20px;
+}
+
+.no-interviews {
+  text-align: center;
+  color: #777;
+  margin-top: 50px;
+  font-style: italic;
+}
+
+.interview-list {
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Interview card styles */
+.interview-card {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.interview-header {
+  margin-bottom: 10px;
+}
+
+.interview-header h4 {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.position {
+  color: #666;
+  font-size: 14px;
+}
+
+.interview-details {
+  margin-bottom: 15px;
+}
+
+.interview-details p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.interview-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.action-btn {
+  padding: 6px 12px;
+  border: none;
+  font-size: 14px;
+}
+
+.edit-btn {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.edit-btn:hover {
+  background: #e0e0e0;
+}
+
+.delete-btn {
+  background: #f5f5f5;
+  color: #d32f2f;
+}
+
+.delete-btn:hover {
+  background: #ffebee;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  width: 500px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-header h3 {
+  margin: 0;
+}
+
+.close {
+  font-size: 24px;
+  cursor: pointer;
+  color: #777;
+}
+
+.close:hover {
+  color: #333;
+}
+
+/* Form styles */
+form {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #0078d4;
+  box-shadow: 0 0 0 2px rgba(0,120,212,0.2);
+}
+
+textarea.form-control {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.error {
+  color: #d32f2f;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form-actions button {
+  padding: 10px 16px;
+  font-weight: 600;
+}
+
+.cancel-btn {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.cancel-btn:hover {
+  background: #e9e9e9;
+}
+
+.save-btn {
+  background: #0078d4;
+  border: none;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #006bbe;
+}
+
+.save-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
