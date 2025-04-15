@@ -14,7 +14,6 @@ import { HeaderComponent } from '../header/header.component';
 })
 export class EmployerComponent {
   sidebarCollapsed: boolean = false;
-  
   toggleSidebar(collapsed: boolean): void {
     this.sidebarCollapsed = collapsed;
   }

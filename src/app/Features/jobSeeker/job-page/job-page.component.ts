@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../Shared/header/header.component';
-import { SideBarComponent } from '../Shared/side-bar/side-bar.component';
+import { HeaderComponent } from '../header/header.component';
+import { SideBarComponent } from '../side-bar/side-bar.component';
 import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 interface MenuItem {
   path: string;
@@ -12,18 +14,16 @@ interface MenuItem {
 
 @Component({
   selector: 'app-job-page',
-  imports: [ HeaderComponent, SideBarComponent, RouterOutlet],
+  imports: [ HeaderComponent, SideBarComponent, RouterOutlet,CommonModule],
   templateUrl: './job-page.component.html',
   styleUrl: './job-page.component.css'
 })
 export class JobPageComponent {
-  menuItems: MenuItem[] = [
-   
-  ];
 
-  setActive(selectedItem: MenuItem): void {
-    this.menuItems.forEach(item => item.active = false);
-    selectedItem.active = true;
+  sidebarCollapsed: boolean = false;
+  
+  toggleSidebar(collapsed: boolean): void {
+    this.sidebarCollapsed = collapsed;
   }
 
 }

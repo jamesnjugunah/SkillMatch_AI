@@ -18,12 +18,12 @@ interface NavItem {
 export class SidebarComponent {
   navItems: NavItem[] = [
     { label: 'Dashboard', icon: 'fas fa-th-large', link: '', active: true },
-    { label: 'Job Postings', icon: 'fas fa-file-alt', link: '/job-posting', active: false },
-    { label: 'Candidates', icon: 'fas fa-users', link: '/candidates', active: false },
-    { label: 'Interviews', icon: 'fas fa-calendar-check', link: '/interviews', active: false },
-    { label: 'Analytics', icon: 'fas fa-chart-line', link: '/analytics', active: false },
-    { label: 'Messages', icon: 'fas fa-comment-alt', link: '/messages', active: false },
-    { label: 'Settings', icon: 'fas fa-cog', link: '/settings', active: false },
+    { label: 'Job Postings', icon: 'fas fa-file-alt', link: 'job-posting', active: false },
+    { label: 'Candidates', icon: 'fas fa-users', link: 'candidates', active: false },
+    { label: 'Interviews', icon: 'fas fa-calendar-check', link: 'interviews', active: false },
+    { label: 'Analytics', icon: 'fas fa-chart-line', link: 'analytics', active: false },
+    { label: 'Messages', icon: 'fas fa-comment-alt', link: 'messages', active: false },
+    { label: 'Settings', icon: 'fas fa-cog', link: 'settings', active: false },
   ];
 
 }

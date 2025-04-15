@@ -1,13 +1,13 @@
 //jobseeker routes
 import { Routes } from '@angular/router';
-import { ApplicationsComponent } from './Pages/applications/applications.component';
-import { CareerPathComponent } from './Pages/career-path/career-path.component';
-import { DashboardComponent } from './Pages/dashboard/dashboard.component';
-import { HelpSupportComponent } from './Pages/help-support/help-support.component';
-import { InterviewCalendarComponent } from './Pages/interview-calendar/interview-calendar.component';
-import { MyJobsComponent } from './Pages/my-jobs/my-jobs.component';
-import { ProfileComponent } from './Pages/profile/profile.component';
-import { SettingsComponent } from './Pages/settings/settings.component';
+import { ApplicationsComponent } from './applications/applications.component';
+import { CareerPathComponent } from './career-path/career-path.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HelpSupportComponent } from './help-support/help-support.component';
+import { InterviewCalendarComponent } from './interview-calendar/interview-calendar.component';
+import { MyJobsComponent } from './my-jobs/my-jobs.component';
+import { ProfileComponent } from './profile/profile.component';
+import { SettingsComponent } from './settings/settings.component';
 
 
 
