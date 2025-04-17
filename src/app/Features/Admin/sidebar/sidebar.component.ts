@@ -1,9 +1,10 @@
 // sidebar.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
 interface MenuItem {
+  id?: number;
   title: string;
   icon: string;
   route: string;
@@ -20,11 +21,11 @@ export class SidebarComponent {
   collapsed: boolean = false;
   
   menuItems: MenuItem[] = [
-    { title: 'Dashboard', icon: 'fa-tachometer-alt', route: '/dashboard', active: true },
-    { title: 'User Management', icon: 'fa-users', route: '/user-management', active: false },
-    { title: 'AI Management', icon: 'fa-robot', route: '/ai-management', active: false },
-    { title: 'Content Management', icon: 'fa-file-alt', route: '/content-management', active: false },
-    { title: 'Reports', icon: 'fa-chart-bar', route: '/reports', active: false }
+    { route: 'dashboard', icon: 'fas fa-home', title: 'Dashboard', active: true },
+    { route: 'user-Management', icon: 'fas fa-users', title: 'User Management', active: false },
+    { route: 'ai-management', icon: 'fas fa-file-alt', title: 'AI Management', active: false },
+    { route: 'content-Management', icon: 'fas fa-calendar-alt', title: 'Content Management', active: false },
+    { route: 'Reports', icon: 'fas fa-question-circle', title: 'Reports', active: false },
   ];
   
   toggleSidebar(): void {

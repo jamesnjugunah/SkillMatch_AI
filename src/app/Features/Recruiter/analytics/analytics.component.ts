@@ -2,7 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Chart} from 'chart.js'
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 @Component({
   selector: 'app-analytics',
   imports: [ CommonModule, FormsModule],
@@ -95,7 +96,102 @@ export class AnalyticsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // In a real application, these would be initialized with actual chart libraries
-    console.log('Analytics component initialized');
+    // Initialize charts after view is ready
+    setTimeout(() => {
+      this.initializeCharts();
+    });
+  }
+  
+  initializeCharts(): void {
+    // Applications over time chart
+    new Chart('applicationsChart', {
+      type: 'line',
+      data: {
+        labels: this.applicationsChart.labels,
+        datasets: [{
+          label: 'Applications',
+          data: this.applicationsChart.data,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 2,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+  
+    // Hiring funnel chart
+    new Chart('hiringFunnelChart', {
+      type: 'bar',
+      data: {
+        labels: this.hiringFunnelChart.labels,
+        datasets: [{
+          label: 'Candidates',
+          data: this.hiringFunnelChart.data,
+          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  
+    // Sources chart
+    new Chart('sourcesChart', {
+      type: 'doughnut',
+      data: {
+        labels: this.sourcesChart.labels,
+        datasets: [{
+          data: this.sourcesChart.data,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(255, 206, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(153, 102, 255, 0.7)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+  
+    // Time to hire chart
+    new Chart('timeToHireChart', {
+      type: 'bar',
+      data: {
+        labels: this.timeToHireChart.labels,
+        datasets: [{
+          label: 'Days',
+          data: this.timeToHireChart.data,
+          backgroundColor: 'rgba(153, 102, 255, 0.6)',
+          borderColor: 'rgba(153, 102, 255, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
   }
 }

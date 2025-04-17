@@ -14,7 +14,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 
 export const RECRUITER_ROUTES: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-    {path: 'dashboard', component: DashboardComponent},
+    { path: 'dashboard', component: DashboardComponent},
     { path: 'interviews', component: InterviewsComponent},
     { path: 'job-posting', component: JobPostingComponent},
     { path: 'candidates', component: CandidatesComponent},

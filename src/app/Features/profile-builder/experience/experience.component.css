@@ -1,0 +1,74 @@
+/* src/app/components/experience/experience.component.scss */
+.step-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+  }
+  
+  .timeline {
+    position: relative;
+    padding: 20px 0;
+  }
+  
+  .timeline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background-color: #ddd;
+  }
+  
+  .timeline-item {
+    position: relative;
+    margin-bottom: 50px;
+  }
+  
+  .timeline-content {
+    position: relative;
+    width: 45%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .timeline-left {
+    margin-left: auto;
+  }
+  
+  .timeline-right {
+    margin-right: auto;
+  }
+  
+  .timeline-content::before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    width: 20px;
+    height: 20px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+  }
+  
+  .timeline-left::before {
+    left: -35px;
+  }
+  
+  .timeline-right::before {
+    right: -35px;
+  }
+  
+  .timeline-date {
+    color: #6c757d;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .timeline-add {
+    text-align: center;
+    margin-top: 30px;
+  }

@@ -1,0 +1,39 @@
+<div class="step-content" id="step2">
+    <h2>Skills Grid</h2>
+    <p>Add skills and rate your proficiency level</p>
+    
+    <div class="skills-grid">
+      <div class="skill-item" *ngFor="let skill of skills">
+        <div class="skill-name">{{ skill.name }}</div>
+        <div class="skill-category">{{ skill.category }}</div>
+        <div class="skill-level">
+          <div class="skill-level-fill" [style.width.%]="skill.proficiency"></div>
+        </div>
+        <div class="skill-rating">{{ skill.proficiency }}%</div>
+      </div>
+      
+      <div class="skill-add" (click)="openSkillModal()">
+        <div>+ Add Skill</div>
+      </div>
+    </div>
+    
+    <div class="visualization">
+      <h3>Skills Visualization</h3>
+      <div class="radar-chart">
+        <!-- Radar chart could be implemented with a chart library like Chart.js or D3.js -->
+      </div>
+    </div>
+    
+    <div class="btn-container">
+      <button class="btn btn-prev prev-step" (click)="onPrevious()">Previous</button>
+      <button class="btn next-step" (click)="onNext()">Next: Experience</button>
+    </div>
+  </div>
+  
+  <!-- Skill Modal -->
+  <app-skill-modal 
+    *ngIf="showSkillModal" 
+    (close)="closeSkillModal()" 
+    (skillAdded)="onSkillAdded($event)">
+  </app-skill-modal>
+  

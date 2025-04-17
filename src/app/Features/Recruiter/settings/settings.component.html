@@ -1,1 +1,22 @@
-<p>settings works!</p>
+<!-- settings.component.html (updated with bindings) -->
+<div class="settings-container">
+    <div class="settings-header">
+      <h3>Settings</h3>
+    </div>
+    
+    <div class="settings-content">
+      <div *ngFor="let section of settingsSections" class="settings-section">
+        <h4>{{ section.title }}</h4>
+        <ul class="settings-menu">
+          <li *ngFor="let item of section.items">
+            <a [routerLink]="item.route" class="settings-item" (click)="navigateToSetting(item.route)">
+              <i class="fa {{ item.icon }}"></i>
+              <span>{{ item.label }}</span>
+              <span *ngIf="item.badge" [ngClass]="item.badge.class">{{ item.badge.text }}</span>
+              <i class="fa fa-chevron-right"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>

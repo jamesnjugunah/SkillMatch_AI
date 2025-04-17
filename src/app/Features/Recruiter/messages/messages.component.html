@@ -1,1 +1,47 @@
-<p>messages works!</p>
+<!-- messages.component.html (updated with bindings) -->
+<div class="messages-container">
+    <div class="messages-header">
+      <h3>Messages</h3>
+      <div class="message-actions">
+        <button class="new-message-btn" (click)="createNewMessage()">
+          <i class="fa fa-plus"></i> New
+        </button>
+        <div class="message-filter">
+          <select [(ngModel)]="selectedFilter" (change)="onFilterChange($event)">
+            <option value="all">All Messages</option>
+            <option value="unread">Unread</option>
+            <option value="archived">Archived</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <div class="message-list">
+      <div *ngFor="let message of filteredMessages" 
+           class="message-item" 
+           [ngClass]="{'unread': message.isUnread}"
+           (click)="viewMessage(message.id)">
+        <div class="message-avatar">
+          <img [src]="message.senderAvatar" alt="User Avatar">
+        </div>
+        <div class="message-content">
+          <div class="message-info">
+            <span class="sender-name">{{ message.senderName }}</span>
+            <span class="message-date">{{ message.date }}</span>
+          </div>
+          <p class="message-preview">{{ message.preview }}</p>
+        </div>
+        <div class="message-status" *ngIf="message.isUnread">
+          <span class="unread-indicator"></span>
+        </div>
+      </div>
+      
+      <div *ngIf="filteredMessages.length === 0" class="no-messages">
+        <p>No messages found</p>
+      </div>
+    </div>
+    
+    <div class="view-all">
+      <a href="#" routerLink="/messages">View All Messages</a>
+    </div>
+  </div>

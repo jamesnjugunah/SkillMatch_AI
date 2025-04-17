@@ -1,0 +1,35 @@
+/* src/app/components/steps-navigation/steps-navigation.component.scss */
+.steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    position: relative;
+  }
+  
+  .steps::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #ddd;
+    z-index: 1;
+  }
+  
+  .step {
+    position: relative;
+    z-index: 2;
+    background-color: #f5f5f5;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: 2px solid #ddd;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .step.active {
+    background-color: #4CAF50;
+    color: white;
+    border-color: #4CAF50;
+  }

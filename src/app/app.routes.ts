@@ -36,6 +36,11 @@ export const routes: Routes = [
     ],
     // canActivate: [AuthGuard, RecruiterGuard]
   },
+  {
+    path: 'profile-builder',
+    loadComponent: () => import('./Features/profile-builder/profile-builder.component')
+      .then(m => m.ProfileBuilderComponent)
+  },
   
 
  

@@ -1,0 +1,33 @@
+<div class="step-content" id="step3">
+    <h2>Experience Timeline</h2>
+    <p>Add your professional experience in chronological order</p>
+    
+    <div class="timeline">
+      <div class="timeline-item" *ngFor="let exp of experiences; let i = index">
+        <div class="timeline-content" [ngClass]="{'timeline-right': i % 2 === 0, 'timeline-left': i % 2 !== 0}">
+          <div class="timeline-date">
+            {{ formatDate(exp.startDate) }} - {{ exp.current ? 'Present' : formatDate(exp.endDate) }}
+          </div>
+          <h3>{{ exp.jobTitle }}</h3>
+          <div>{{ exp.company }}</div>
+          <p>{{ exp.description }}</p>
+        </div>
+      </div>
+      
+      <div class="timeline-add">
+        <button class="btn" (click)="openExperienceModal()">+ Add Experience</button>
+      </div>
+    </div>
+    
+    <div class="btn-container">
+      <button class="btn btn-prev prev-step" (click)="onPrevious()">Previous</button>
+      <button class="btn next-step" (click)="onNext()">Next: Review</button>
+    </div>
+  </div>
+  
+  <!-- Experience Modal -->
+  <app-experince-modal 
+    *ngIf="showExperienceModal" 
+    (close)="closeExperienceModal()" 
+    (experienceAdded)="onExperienceAdded($event)">
+  </app-experince-modal>

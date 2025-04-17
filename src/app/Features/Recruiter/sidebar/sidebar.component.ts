@@ -17,7 +17,8 @@ interface NavItem {
 })
 export class SidebarComponent {
   navItems: NavItem[] = [
-    { label: 'Dashboard', icon: 'fas fa-th-large', link: '', active: true },
+    
+    { label: 'Dashboard', icon: 'fas fa-th-large', link: 'dashboard', active: false},
     { label: 'Job Postings', icon: 'fas fa-file-alt', link: 'job-posting', active: false },
     { label: 'Candidates', icon: 'fas fa-users', link: 'candidates', active: false },
     { label: 'Interviews', icon: 'fas fa-calendar-check', link: 'interviews', active: false },

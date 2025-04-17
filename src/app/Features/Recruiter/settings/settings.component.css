@@ -1,0 +1,95 @@
+/* settings.component.css */
+.settings-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .settings-header {
+    padding: 15px;
+    border-bottom: 1px solid #eaeaea;
+  }
+  
+  .settings-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .settings-content {
+    padding: 0;
+  }
+  
+  .settings-section {
+    border-bottom: 1px solid #eaeaea;
+    padding: 15px;
+  }
+  
+  .settings-section:last-child {
+    border-bottom: none;
+  }
+  
+  .settings-section h4 {
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    color: #555;
+    font-weight: 600;
+  }
+  
+  .settings-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .settings-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+  
+  .settings-item:hover {
+    background-color: #f5f8fa;
+  }
+  
+  .settings-item i {
+    margin-right: 10px;
+    color: #777;
+    width: 16px;
+    text-align: center;
+  }
+  
+  .settings-item i.fa-chevron-right {
+    margin-left: auto;
+    margin-right: 0;
+    font-size: 12px;
+    color: #aaa;
+  }
+  
+  .settings-item span {
+    flex: 1;
+  }
+  
+  .plan-badge {
+    background-color: #27ae60;
+    color: white;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-right: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .settings-section {
+      padding: 12px;
+    }
+    
+    .settings-item {
+      padding: 8px;
+    }
+  }

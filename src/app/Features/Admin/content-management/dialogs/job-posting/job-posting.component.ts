@@ -9,16 +9,12 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatChipGrid } from '@angular/material/chips';
+import { QuillModule } from 'ngx-quill';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDialogActions } from '@angular/material/dialog';
-import { MatDialogContent } from '@angular/material/dialog';
-import { MatChipInput } from '@angular/material/chips';
-import { MatChipRow } from '@angular/material/chips';
 
 @Component({
   selector: 'app-job-posting',
-  imports: [ CommonModule, MatDialogContent,MatInputModule, MatDialogActions,FormsModule, MatChipInput,MatIcon,ReactiveFormsModule, MatDatepickerModule, MatChipGrid, MatSelectModule, MatChipRow ],
+  imports: [ CommonModule, MatInputModule,FormsModule,ReactiveFormsModule, MatDatepickerModule, MatSelectModule, QuillModule],
   templateUrl: './job-posting.component.html',
   styleUrl: './job-posting.component.css'
 })
@@ -116,6 +112,13 @@ export class JobPostingComponent implements OnInit {
     }
 
     event.chipInput!.clear();
+  }
+  addSkillFromInput(value: string): void {
+    const currentSkills = this.jobForm.get('skillsRequired')?.value || [];
+    value = value.trim();
+    if (value && !currentSkills.includes(value)) {
+      this.jobForm.get('skillsRequired')?.setValue([...currentSkills, value]);
+    }
   }
 
   removeSkill(skill: string): void {

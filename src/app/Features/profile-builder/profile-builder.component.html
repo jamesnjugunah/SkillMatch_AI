@@ -1,0 +1,12 @@
+<div class="container">
+    <app-header></app-header>
+    <app-step-navigation></app-step-navigation>
+    
+    <app-personal-info *ngIf="(currentStep$ | async) === 1"></app-personal-info>
+    <app-skills *ngIf="(currentStep$ | async) === 2"></app-skills>
+    <app-experience *ngIf="(currentStep$ | async) === 3"></app-experience>
+    <app-review *ngIf="(currentStep$ | async) === 4"></app-review>
+  
+    <app-skill-modal></app-skill-modal>
+    <app-experince-modal></app-experince-modal>
+</div>

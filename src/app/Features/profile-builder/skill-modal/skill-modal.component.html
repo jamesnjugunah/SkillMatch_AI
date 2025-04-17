@@ -1,0 +1,48 @@
+<div class="modal" id="addSkillModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add New Skill</h3>
+        <span class="modal-close" (click)="onClose()">&times;</span>
+      </div>
+      
+      <form [formGroup]="skillForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="skillName">Skill Name</label>
+          <input 
+            type="text" 
+            id="skillName" 
+            formControlName="name" 
+            placeholder="e.g., Python, Marketing, Leadership">
+          <div *ngIf="skillForm.get('name')?.invalid && skillForm.get('name')?.touched" class="error">
+            Skill name is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="skillCategory">Category</label>
+          <select id="skillCategory" formControlName="category">
+            <option *ngFor="let category of skillCategories" [value]="category.value">
+              {{ category.label }}
+            </option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="skillLevel">
+            Proficiency Level: <span>{{ skillForm.get('proficiency')?.value }}%</span>
+          </label>
+          <input 
+            type="range" 
+            id="skillLevel" 
+            class="range-slider" 
+            formControlName="proficiency" 
+            min="0" 
+            max="100">
+        </div>
+        
+        <div class="btn-container">
+          <button type="submit" class="btn btn-success">Add Skill</button>
+        </div>
+      </form>
+    </div>
+  </div>

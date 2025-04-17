@@ -1,209 +1,255 @@
-<!-- interviews.component.html -->
-<div class="container px-4 py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h1>Interviews</h1>
-      <button class="btn btn-primary" (click)="scheduleInterview()">
-        <i class="bi bi-calendar-plus me-2"></i>Schedule Interview
-      </button>
+<div class="interviews-container">
+  <div class="header">
+    <h1>Interview Management</h1>
+    <button class="btn-primary" (click)="scheduleInterview()">
+      <i class="fas fa-plus"></i> Schedule Interview
+    </button>
+  </div>
+
+  <div class="filters-section">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Search by name or position...">
     </div>
-  
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="row g-3">
-          <div class="col-md-4">
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-search"></i></span>
-              <input 
-                type="text" 
-                class="form-control" 
-                placeholder="Search candidates or positions..." 
-                [(ngModel)]="searchTerm"
-              >
-            </div>
-          </div>
-          <div class="col-md-2">
-            <select class="form-select" [(ngModel)]="selectedStatus">
-              <option *ngFor="let status of statusOptions" [value]="status">
-                {{ status }}
-              </option>
-            </select>
-          </div>
-          <div class="col-md-2">
-            <select class="form-select" [(ngModel)]="selectedType">
-              <option *ngFor="let type of typeOptions" [value]="type">
-                {{ type }}
-              </option>
-            </select>
-          </div>
-          <div class="col-md-4 text-end">
-            <div class="btn-group">
-              <button 
-                type="button" 
-                class="btn" 
-                [ngClass]="{'btn-primary': viewMode === 'calendar', 'btn-outline-primary': viewMode !== 'calendar'}"
-                (click)="viewMode = 'calendar'"
-              >
-                <i class="bi bi-calendar-week me-1"></i>Calendar
-              </button>
-              <button 
-                type="button" 
-                class="btn" 
-                [ngClass]="{'btn-primary': viewMode === 'list', 'btn-outline-primary': viewMode !== 'list'}"
-                (click)="viewMode = 'list'"
-              >
-                <i class="bi bi-list-ul me-1"></i>List
-              </button>
-            </div>
-          </div>
-        </div>
+    
+    <div class="filter-controls">
+      <div class="filter-group">
+        <label>Status:</label>
+        <select [(ngModel)]="selectedStatus">
+          <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label>Type:</label>
+        <select [(ngModel)]="selectedType">
+          <option *ngFor="let type of typeOptions" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+      
+      <div class="view-toggle">
+        <button [class.active]="viewMode === 'list'" (click)="viewMode = 'list'">
+          <i class="fas fa-list"></i> List
+        </button>
+        <button [class.active]="viewMode === 'calendar'" (click)="viewMode = 'calendar'">
+          <i class="fas fa-calendar-alt"></i> Calendar
+        </button>
       </div>
     </div>
-  
-    <!-- Calendar View -->
-    <div *ngIf="viewMode === 'calendar'" class="mb-4">
-      <div class="card">
-        <div class="card-header bg-light">
-          <div class="d-flex justify-content-between align-items-center">
-            <button class="btn btn-sm btn-outline-secondary">
-              <i class="bi bi-chevron-left"></i>
-            </button>
-            <h5 class="mb-0">April 2025</h5>
-            <button class="btn btn-sm btn-outline-secondary">
-              <i class="bi bi-chevron-right"></i>
-            </button>
-          </div>
-        </div>
-        <div class="card-body">
-          <!-- Simplified calendar for demo purposes -->
-          <div class="alert alert-info">
-            <i class="bi bi-info-circle me-2"></i>Calendar view would be implemented with a full Angular calendar component like FullCalendar or Angular Calendar.
+  </div>
+
+  <!-- List View -->
+  <div *ngIf="viewMode === 'list'" class="list-view">
+    <div class="section" *ngIf="todayInterviews.length > 0">
+      <h2>Today's Interviews</h2>
+      <div class="interviews-grid">
+        <div class="interview-card" *ngFor="let interview of todayInterviews">
+          <div class="card-header">
+            <div class="status-badge" [ngClass]="getStatusClass(interview.status)">{{ interview.status }}</div>
+            <div class="interview-type">{{ interview.type }}</div>
           </div>
           
-          <div class="row mt-4">
-            <div class="col-md-6">
-              <div class="card mb-3">
-                <div class="card-header bg-primary text-white">
-                  <h5 class="mb-0">Today's Interviews</h5>
-                </div>
-                <div class="card-body p-0">
-                  <ul class="list-group list-group-flush">
-                    <li *ngFor="let interview of todayInterviews" class="list-group-item">
-                      <div class="d-flex align-items-center">
-                        <img [src]="interview.candidateAvatar" class="rounded-circle me-3" width="40" height="40">
-                        <div>
-                          <h6 class="mb-0">{{ interview.candidateName }}</h6>
-                          <small class="text-muted">{{ interview.time }} | {{ interview.duration }} min | {{ interview.type }}</small>
-                        </div>
-                        <span class="ms-auto badge" [ngClass]="getStatusClass(interview.status)">
-                          {{ interview.status }}
-                        </span>
-                      </div>
-                    </li>
-                    <li *ngIf="todayInterviews.length === 0" class="list-group-item text-center text-muted py-4">
-                      No interviews scheduled for today
-                    </li>
-                  </ul>
-                </div>
-              </div>
+          <div class="candidate-info">
+            <img [src]="interview.candidateAvatar" alt="Profile image" class="candidate-avatar">
+            <div class="candidate-details">
+              <h3>{{ interview.candidateName }}</h3>
+              <p class="position">{{ interview.position }}</p>
             </div>
-            <div class="col-md-6">
-              <div class="card">
-                <div class="card-header bg-secondary text-white">
-                  <h5 class="mb-0">Upcoming Interviews</h5>
-                </div>
-                <div class="card-body p-0">
-                  <ul class="list-group list-group-flush">
-                    <li *ngFor="let interview of upcomingInterviews.slice(0, 3)" class="list-group-item">
-                      <div class="d-flex align-items-center">
-                        <img [src]="interview.candidateAvatar" class="rounded-circle me-3" width="40" height="40">
-                        <div>
-                          <h6 class="mb-0">{{ interview.candidateName }}</h6>
-                          <small class="text-muted">{{ interview.date | date:'mediumDate' }} | {{ interview.time }}</small>
-                        </div>
-                        <span class="ms-auto badge" [ngClass]="getStatusClass(interview.status)">
-                          {{ interview.status }}
-                        </span>
-                      </div>
-                    </li>
-                    <li *ngIf="upcomingInterviews.length === 0" class="list-group-item text-center text-muted py-4">
-                      No upcoming interviews scheduled
-                    </li>
-                  </ul>
-                  <div *ngIf="upcomingInterviews.length > 3" class="card-footer text-center">
-                    <a href="#" class="text-decoration-none">View all ({{ upcomingInterviews.length }})</a>
-                    <!-- Continuation of interviews.component.html -->
-                </div>
+          </div>
+          
+          <div class="interview-details">
+            <div class="detail-item">
+              <i class="far fa-calendar"></i>
+              <span>{{ interview.date | date:'MMM d, y' }}</span>
             </div>
+            <div class="detail-item">
+              <i class="far fa-clock"></i>
+              <span>{{ interview.time }} ({{ interview.duration }} min)</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>{{ interview.location }}</span>
+            </div>
+          </div>
+          
+          <div class="interviewers">
+            <h4>Interviewers:</h4>
+            <div class="interviewer-pills">
+              <span class="interviewer-pill" *ngFor="let interviewer of interview.interviewers">
+                {{ interviewer }}
+              </span>
+            </div>
+          </div>
+          
+          <div class="notes" *ngIf="interview.notes">
+            <h4>Notes:</h4>
+            <p>{{ interview.notes }}</p>
+          </div>
+          
+          <div class="card-actions">
+            <button class="btn-icon" title="Edit">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-icon" title="Delete">
+              <i class="fas fa-trash"></i>
+            </button>
+            <button class="btn-icon" title="View details">
+              <i class="fas fa-eye"></i>
+            </button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- List View -->
-<div *ngIf="viewMode === 'list'">
-  <div class="table-responsive">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Candidate</th>
-          <th>Position</th>
-          <th>Date & Time</th>
-          <th>Duration</th>
-          <th>Type</th>
-          <th>Interviewers</th>
-          <th>Status</th>
-          <th>Location</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let interview of filteredInterviews">
-          <td>
-            <div class="d-flex align-items-center">
-              <img [src]="interview.candidateAvatar" alt="{{ interview.candidateName }}" class="rounded-circle me-2" width="40" height="40">
-              <span>{{ interview.candidateName }}</span>
+    <div class="section" *ngIf="upcomingInterviews.length > 0">
+      <h2>Upcoming Interviews</h2>
+      <div class="interviews-grid">
+        <div class="interview-card" *ngFor="let interview of upcomingInterviews">
+          <div class="card-header">
+            <div class="status-badge" [ngClass]="getStatusClass(interview.status)">{{ interview.status }}</div>
+            <div class="interview-type">{{ interview.type }}</div>
+          </div>
+          
+          <div class="candidate-info">
+            <img [src]="interview.candidateAvatar" alt="Profile image" class="candidate-avatar">
+            <div class="candidate-details">
+              <h3>{{ interview.candidateName }}</h3>
+              <p class="position">{{ interview.position }}</p>
             </div>
-          </td>
-          <td>{{ interview.position }}</td>
-          <td>{{ interview.date | date:'MMM d' }} at {{ interview.time }}</td>
-          <td>{{ interview.duration }} min</td>
-          <td>{{ interview.type }}</td>
-          <td>
-            <div class="d-flex align-items-center">
-              <span class="me-1">{{ interview.interviewers.length }}</span>
-              <div class="interview-avatars">
-                <!-- Would implement interviewer avatars here -->
-                <span class="badge bg-secondary">{{ interview.interviewers.length }}</span>
-              </div>
+          </div>
+          
+          <div class="interview-details">
+            <div class="detail-item">
+              <i class="far fa-calendar"></i>
+              <span>{{ interview.date | date:'MMM d, y' }}</span>
             </div>
-          </td>
-          <td>
-            <span class="badge" [ngClass]="getStatusClass(interview.status)">{{ interview.status }}</span>
-          </td>
-          <td>{{ interview.location }}</td>
-          <td>
-            <div class="btn-group">
-              <button class="btn btn-sm btn-outline-primary">
-                <i class="bi bi-eye"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-success">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger">
-                <i class="bi bi-trash"></i>
-              </button>
+            <div class="detail-item">
+              <i class="far fa-clock"></i>
+              <span>{{ interview.time }} ({{ interview.duration }} min)</span>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <div class="detail-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>{{ interview.location }}</span>
+            </div>
+          </div>
+          
+          <div class="interviewers">
+            <h4>Interviewers:</h4>
+            <div class="interviewer-pills">
+              <span class="interviewer-pill" *ngFor="let interviewer of interview.interviewers">
+                {{ interviewer }}
+              </span>
+            </div>
+          </div>
+          
+          <div class="notes" *ngIf="interview.notes">
+            <h4>Notes:</h4>
+            <p>{{ interview.notes }}</p>
+          </div>
+          
+          <div class="card-actions">
+            <button class="btn-icon" title="Edit">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-icon" title="Delete">
+              <i class="fas fa-trash"></i>
+            </button>
+            <button class="btn-icon" title="View details">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" *ngIf="pastInterviews.length > 0">
+      <h2>Past Interviews</h2>
+      <div class="interviews-grid">
+        <div class="interview-card" *ngFor="let interview of pastInterviews">
+          <div class="card-header">
+            <div class="status-badge" [ngClass]="getStatusClass(interview.status)">{{ interview.status }}</div>
+            <div class="interview-type">{{ interview.type }}</div>
+          </div>
+          
+          <div class="candidate-info">
+            <img [src]="interview.candidateAvatar" alt="Profile image" class="candidate-avatar">
+            <div class="candidate-details">
+              <h3>{{ interview.candidateName }}</h3>
+              <p class="position">{{ interview.position }}</p>
+            </div>
+          </div>
+          
+          <div class="interview-details">
+            <div class="detail-item">
+              <i class="far fa-calendar"></i>
+              <span>{{ interview.date | date:'MMM d, y' }}</span>
+            </div>
+            <div class="detail-item">
+              <i class="far fa-clock"></i>
+              <span>{{ interview.time }} ({{ interview.duration }} min)</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>{{ interview.location }}</span>
+            </div>
+          </div>
+          
+          <div class="interviewers">
+            <h4>Interviewers:</h4>
+            <div class="interviewer-pills">
+              <span class="interviewer-pill" *ngFor="let interviewer of interview.interviewers">
+                {{ interviewer }}
+              </span>
+            </div>
+          </div>
+          
+          <div class="notes" *ngIf="interview.notes">
+            <h4>Notes:</h4>
+            <p>{{ interview.notes }}</p>
+          </div>
+          
+          <div class="card-actions">
+            <button class="btn-icon" title="Edit">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-icon" title="Delete">
+              <i class="fas fa-trash"></i>
+            </button>
+            <button class="btn-icon" title="View details">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="no-results" *ngIf="filteredInterviews.length === 0">
+      <i class="fas fa-search"></i>
+      <p>No interviews match your search criteria</p>
+      <button class="btn-secondary" (click)="selectedStatus = 'All'; selectedType = 'All'; searchTerm = ''">
+        Clear filters
+      </button>
+    </div>
   </div>
 
-  <div *ngIf="filteredInterviews.length === 0" class="text-center py-5">
-    <div class="display-6 text-muted">No interviews found</div>
-    <p class="mt-3">Adjust your filters or schedule a new interview.</p>
+  <!-- Calendar View -->
+  <div *ngIf="viewMode === 'calendar'" class="calendar-view">
+    <div class="calendar-header">
+      <button class="btn-icon" (click)="selectedDate.setMonth(selectedDate.getMonth() - 1)">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <h2>{{ selectedDate | date:'MMMM yyyy' }}</h2>
+      <button class="btn-icon" (click)="selectedDate.setMonth(selectedDate.getMonth() + 1)">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+    
+    <div class="calendar-grid">
+      <!-- Calendar implementation would go here -->
+      <div class="calendar-placeholder">
+        <p>Calendar view implementation would display interviews on respective dates</p>
+        <p class="hint">For a complete calendar implementation, consider using a library like FullCalendar or Angular Calendar</p>
+      </div>
+    </div>
   </div>
-</div>
 </div>

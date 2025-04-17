@@ -9,7 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 export const adminRoutes: Routes = [
-    { path: 'admin', redirectTo: 'admin/dashboard', pathMatch: 'full' },
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'ai-management', component: AiManagementComponent },
     { path: 'reports', component: ReportsComponent },

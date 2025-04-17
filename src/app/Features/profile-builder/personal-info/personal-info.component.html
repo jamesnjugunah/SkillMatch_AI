@@ -1,0 +1,53 @@
+<div class="step-content active" id="step1">
+    <h2>Personal Information</h2>
+    
+    <form [formGroup]="personalInfoForm">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input 
+          type="text" 
+          id="fullName" 
+          formControlName="fullName" 
+          placeholder="John Doe">
+        <div *ngIf="personalInfoForm.get('fullName')?.invalid && personalInfoForm.get('fullName')?.touched" class="error">
+          Name is required
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          placeholder="john@example.com">
+        <div *ngIf="personalInfoForm.get('email')?.invalid && personalInfoForm.get('email')?.touched" class="error">
+          Valid email is required
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="profession">Profession</label>
+        <input 
+          type="text" 
+          id="profession" 
+          formControlName="profession" 
+          placeholder="Software Developer">
+        <div *ngIf="personalInfoForm.get('profession')?.invalid && personalInfoForm.get('profession')?.touched" class="error">
+          Profession is required
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="bio">Bio</label>
+        <textarea 
+          id="bio" 
+          formControlName="bio" 
+          placeholder="Write a short bio about yourself..."></textarea>
+      </div>
+      
+      <div class="btn-container">
+        <button class="btn next-step" (click)="onNext()">Next: Skills</button>
+      </div>
+    </form>
+  </div>

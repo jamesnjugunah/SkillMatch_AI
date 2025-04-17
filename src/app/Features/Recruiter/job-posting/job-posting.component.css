@@ -1,32 +1,400 @@
-/* job-postings.component.scss */
+/* job-postings.component.css */
+
+:root {
+  --primary: #4361ee;
+  --primary-hover: #3a56d4;
+  --primary-light: #eef2ff;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --draft: #6b7280;
+  --text-dark: #111827;
+  --text-medium: #4b5563;
+  --text-light: #9ca3af;
+  --border: #e5e7eb;
+  --bg-light: #f9fafb;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --radius: 8px;
+  --transition: all 0.2s ease;
+}
+
+/* Main container styling */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background-color: transparent;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Page header styling */
+.container h1 {
+  color: var(--text-dark);
+  font-weight: 700;
+  font-size: 1.75rem;
+  margin-bottom: 0;
+  position: relative;
+}
+
+.container h1::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 3px;
+  background-color: var(--primary);
+  bottom: -8px;
+  left: 0;
+}
+
+/* Create job button styling */
+.btn-primary {
+  background-color: rgb(90, 90, 248);
+  color:white;
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border:1px solid white;
+  border: 1px transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+ 
+}
+
+
+
+.btn-primary i {
+  font-size: 0.875rem;
+}
+
+/* Filter card styling */
+.card {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card-body {
+  padding: 1.25rem;
+  
+}
+.row.g-3{
+  display: flex;
+  gap: 20px;
+}
+
+/* Search input styling */
+.input-group {
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.input-group-text {
+  background-color: white;
+  border-color: var(--border);
+  color: var(--text-medium);
+  padding-left: 1rem;
+  width:100%;
+
+}
+
+.form-control {
+  border: 1px solid rgb(43, 42, 42);
+  box-shadow: none;
+  background-color: white;
+  color: var(--text-dark);
+  border-radius:8px;
+  font-size: 0.95rem;
+  padding-left: 1rem;
+}
+.input-group .form-control {
+  border-color: var(--border);
+  padding: 0.625rem 1rem;
+  font-size: 0.95rem;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+}
+
+/* Status select styling */
+.form-select {
+  border-color: var(--border);
+  border-radius: 8px;
+  padding: 0.625rem 1rem;
+  box-shadow: var(--shadow-sm);
+  font-size: 0.95rem;
+  background-position: right 0.75rem center;
+}
+.text-end{
+  color:red;
+}
+
+/* Table styling */
+.table-responsive {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  margin-top: 1.5rem;
+  overflow: hidden;
+}
 
 .table {
-    th, td {
-      vertical-align: middle;
-    }
+  margin-bottom: 0;
+}
+
+.table thead th {
+  background-color: var(--bg-light);
+  color: var(--text-medium);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 1rem;
+  border-top: none;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  transition: var(--transition);
+}
+
+.table tbody tr:hover {
+  background-color: var(--primary-light);
+}
+
+.table td {
+  padding: 1rem;
+  vertical-align: middle;
+  color: var(--text-dark);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+/* Department and location styling */
+.table td:nth-child(2), .table td:nth-child(3) {
+  color: var(--text-medium);
+  font-size: 0.9rem;
+}
+
+/* Status badge styling */
+.badge {
+  padding: 0.5rem 0.75rem;
+  font-weight: 500;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+}
+
+.bg-success {
+  background-color: var(--success) !important;
+}
+
+.bg-secondary {
+  background-color: var(--draft) !important;
+}
+
+.bg-danger {
+  background-color: var(--danger) !important;
+}
+
+/* Applicants count styling */
+.table td:nth-child(5) {
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Date styling */
+.table td:nth-child(6), .table td:nth-child(7) {
+  color: var(--text-medium);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* Action Buttons CSS */
+
+/* Button group container */
+.btn-group {
+  display: flex;
+  gap: 4px; /* Space between buttons */
+}
+
+/* Base button styles */
+.btn-sm {
+  padding: 4px 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Primary button - Edit button */
+.btn-outline-primary {
+  border: 1px solid #3b82f6;
+  color: #3b82f6;
+  background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* Danger button - Delete button */
+.btn-outline-danger {
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  background-color: transparent;
+}
+
+.btn-outline-danger:hover {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* Secondary button - Options/menu button */
+.btn-outline-secondary {
+  border: 1px solid #6b7280;
+  color: #6b7280;
+  background-color: transparent;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6b7280;
+  color: white;
+}
+
+/* Icon styles (assuming you're using Bootstrap Icons) */
+.bi {
+  font-size: 16px;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* If Bootstrap Icons are not available, here are some CSS-only icons */
+/* Pencil icon */
+.btn-outline-primary::before {
+  content: "✏️";
+  display: inline-block;
+}
+
+/* Trash icon */
+.btn-outline-danger::before {
+  content: "🗑️";
+  display: inline-block;
+}
+
+/* Three dots icon */
+.btn-outline-secondary::before {
+  content: "⋮";
+  display: inline-block;
+  font-weight: bold;
+}
+
+/* Hide Bootstrap icons if using CSS-only icons */
+.btn-sm i {
+  display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .btn-group {
+    flex-direction: column;
+    gap: 8px;
   }
   
-  .badge {
+  .btn-sm {
+    padding: 6px 12px;
+  }
+}
+
+/* Alternative layout - horizontal with smaller buttons for table rows */
+tr .btn-group {
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+tr .btn-sm {
+  padding: 4px;
+  height: 28px;
+  width: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Empty state styling */
+.text-center.py-5 {
+  padding: 3rem 0;
+  background-color: var(--bg-light);
+  border-radius: var(--radius);
+  margin-top: 1.5rem;
+}
+
+.display-6 {
+  font-weight: 600;
+  color: var(--text-light);
+  font-size: 1.5rem;
+}
+
+.text-center p {
+  color: var(--text-medium);
+  max-width: 400px;
+  margin: 1rem auto 0;
+}
+
+/* Jobs found counter */
+.text-muted {
+  color: var(--text-medium) !important;
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .d-flex.justify-content-between {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 1rem;
+  }
+  
+  .btn-primary {
+    width: 100%;
+  }
+  
+  .row.g-3 > * {
+    margin-bottom: 0.5rem;
+  }
+  
+  .text-end {
+    text-align: left !important;
+    margin-top: 0.5rem;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .table th, .table td {
+    padding: 0.75rem;
     font-size: 0.85rem;
-    padding: 0.35em 0.65em;
   }
-  
-  .btn-group .btn {
-    padding: 0.25rem 0.5rem;
-  }
-  
-  .input-group-text {
-    background-color: #fff;
-    border-right: 0;
-  }
-  
-  .input-group .form-control {
-    border-left: 0;
-  }
-  
-  .form-select, .form-control {
-    &:focus {
-      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-      border-color: #86b7fe;
-    }
-  }
+}

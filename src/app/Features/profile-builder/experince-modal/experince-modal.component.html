@@ -1,0 +1,76 @@
+<div class="modal" id="addExperienceModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add Experience</h3>
+        <span class="modal-close" (click)="onClose()">&times;</span>
+      </div>
+      
+      <form [formGroup]="experienceForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="jobTitle">Job Title</label>
+          <input 
+            type="text" 
+            id="jobTitle" 
+            formControlName="jobTitle" 
+            placeholder="e.g., Senior Developer">
+          <div *ngIf="experienceForm.get('jobTitle')?.invalid && experienceForm.get('jobTitle')?.touched" class="error">
+            Job title is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="company">Company/Organization</label>
+          <input 
+            type="text" 
+            id="company" 
+            formControlName="company" 
+            placeholder="e.g., TechCorp Inc.">
+          <div *ngIf="experienceForm.get('company')?.invalid && experienceForm.get('company')?.touched" class="error">
+            Company name is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="startDate">Start Date</label>
+          <input 
+            type="date" 
+            id="startDate" 
+            formControlName="startDate">
+          <div *ngIf="experienceForm.get('startDate')?.invalid && experienceForm.get('startDate')?.touched" class="error">
+            Start date is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="endDate">End Date</label>
+          <input 
+            type="date" 
+            id="endDate" 
+            formControlName="endDate">
+          <div>
+            <input 
+              type="checkbox" 
+              id="currentJob" 
+              formControlName="current"> 
+            <label for="currentJob" style="display: inline;">I currently work here</label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea 
+            id="description" 
+            formControlName="description" 
+            placeholder="Describe your role and responsibilities..."></textarea>
+          <div *ngIf="experienceForm.get('description')?.invalid && experienceForm.get('description')?.touched" class="error">
+            Description is required
+          </div>
+        </div>
+        
+        <div class="btn-container">
+          <button type="submit" class="btn btn-success">Add Experience</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

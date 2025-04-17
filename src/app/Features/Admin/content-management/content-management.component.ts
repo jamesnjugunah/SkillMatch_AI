@@ -1,13 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatIcon } from '@angular/material/icon';
-import { MatButton } from '@angular/material/button';
-import { MatInput } from '@angular/material/input';
-import { MatSelect } from '@angular/material/select';
-import { MatOption } from '@angular/material/core';
-import { MatFormField } from '@angular/material/form-field';
-import { MatTable } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,17 +18,17 @@ interface JobPosting {
   company: string;
   location: string;
   jobType: string;
-  skillsRequired: string[];
   experienceLevel: string;
   status: string;
   datePosted: Date;
   applicationDeadline: Date;
+  skillsRequired: string[];
 }
 
 
 @Component({
   selector: 'app-content-management',
-  imports: [ MatIcon, MatButton, MatInput, MatSelect, MatOption, CommonModule, MatMenuModule, FormsModule, MatFormField, MatTable, MatPaginator, MatSort, MatFormFieldModule ],
+  imports: [  CommonModule, MatMenuModule, FormsModule, MatFormFieldModule ],
   templateUrl: './content-management.component.html',
   styleUrl: './content-management.component.css'
 })
@@ -51,6 +44,24 @@ export class ContentManagementComponent {
   selectedExperienceLevel = '';
   selectedStatus = '';
   searchQuery = '';
+  // Sorting state
+  sortColumn = 'id';
+  sortDirection = 'asc';
+  
+  // Pagination state
+  currentPage = 1;
+  pageSize = 10;
+  totalItems = 0;
+  totalPages = 0;
+  paginationStart = 1;
+  paginationEnd = 10;
+  
+  // UI state
+  activeStatusMenu: number | null = null;
+
+
+  allJobs: JobPosting[] = [];
+  filteredJobs: JobPosting[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -161,10 +172,36 @@ export class ContentManagementComponent {
 
   ngOnInit(): void {
   }
+  goToPage(page: number) {
+    this.currentPage = page;
+    this.applyFilter();
+  }
 
+  changePageSize() {
+    this.currentPage = 1; // Reset to first page
+    this.applyFilter();
+  }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+  pageNumbers(): number[] {
+    const range = [];
+    const maxVisiblePages = 5;
+    
+    let start = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
+    let end = Math.min(this.totalPages, start + maxVisiblePages - 1);
+    
+    // Adjust start if we're near the end
+    if (end === this.totalPages) {
+      start = Math.max(1, end - maxVisiblePages + 1);
+    }
+    
+    for (let i = start; i <= end; i++) {
+      range.push(i);
+    }
+    
+    return range;
   }
 
   applyFilter() {
@@ -182,6 +219,39 @@ export class ContentManagementComponent {
     
     // Trigger filter update
     this.dataSource.filter = this.searchQuery || this.selectedJobType || this.selectedExperienceLevel || this.selectedStatus ? 'filtered' : '';
+  }
+  toggleStatusMenu(jobId: number) {
+    this.activeStatusMenu = this.activeStatusMenu === jobId ? null : jobId;
+  }
+  
+  sortData(column: string, data: JobPosting[] = this.allJobs) {
+    // If clicking the same column, toggle direction
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+    
+    // Sort the data
+    data.sort((a: any, b: any) => {
+      const valueA = a[column];
+      const valueB = b[column];
+      
+      // Handle different data types
+      if (valueA instanceof Date && valueB instanceof Date) {
+        return this.sortDirection === 'asc' 
+          ? valueA.getTime() - valueB.getTime()
+          : valueB.getTime() - valueA.getTime();
+      } else {
+        // For strings and numbers
+        const comparison = valueA > valueB ? 1 : valueA < valueB ? -1 : 0;
+        return this.sortDirection === 'asc' ? comparison : -comparison;
+      }
+    });
+    
+    // Apply pagination after sorting
+    this.applyFilter();
   }
 
   resetFilters() {

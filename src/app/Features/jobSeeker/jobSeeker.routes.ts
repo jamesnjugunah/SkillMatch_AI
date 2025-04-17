@@ -11,6 +11,7 @@ import { SettingsComponent } from './settings/settings.component';
 
 
 
+
 export const jobSeekerRoutes: Routes = [
     {path : '', redirectTo: 'dashboard', pathMatch: 'full'},
     {path : 'dashboard', component: DashboardComponent},
@@ -21,4 +22,5 @@ export const jobSeekerRoutes: Routes = [
     {path : 'profile', component: ProfileComponent},
     {path : 'settings', component: SettingsComponent},
     {path : 'help-support', component: HelpSupportComponent},
+    {path : '**', redirectTo: 'dashboard'}
 ]

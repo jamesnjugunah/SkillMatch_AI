@@ -1,0 +1,28 @@
+
+<div class="step-content" id="step4">
+  <h2>Review Your Profile</h2>
+  <p>Review and confirm your skill profile details</p>
+  
+  <div class="form-group">
+    <h3>Personal Information</h3>
+    <p><strong>Name:</strong> {{ profile.fullName }}</p>
+    <p><strong>Email:</strong> {{ profile.email }}</p>
+    <p><strong>Profession:</strong> {{ profile.profession }}</p>
+    <p><strong>Bio:</strong> {{ profile.bio }}</p>
+  </div>
+  
+  <div class="form-group">
+    <h3>Skills Summary</h3>
+    <p>You have added <strong>{{ profile.skills.length }}</strong> skills with an average proficiency of <strong>{{ averageProficiency }}%</strong>.</p>
+  </div>
+  
+  <div class="form-group">
+    <h3>Experience Summary</h3>
+    <p>You have added <strong>{{ profile.experiences.length }}</strong> experiences spanning <strong>{{ totalExperienceYears }}+</strong> years.</p>
+  </div>
+  
+  <div class="btn-container">
+    <button class="btn btn-prev prev-step" (click)="onPrevious()">Previous</button>
+    <button class="btn btn-success" (click)="onComplete()">Complete Profile</button>
+  </div>
+</div>
