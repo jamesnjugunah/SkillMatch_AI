@@ -1,1 +1,227 @@
-<p>ai-management works!</p>
+<div class="ai-management-container">
+    <div class="page-header">
+      <h1>AI Model Management</h1>
+      <div class="stats">
+        <div class="stat-item">
+          <span class="stat-label">Running Models:</span>
+          <span class="stat-value">{{ runningModelsCount }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Average Accuracy:</span>
+          <span class="stat-value">{{ averageAccuracy }}</span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="dashboard-summary">
+      <div class="summary-card">
+        <div class="card-title">Total Models</div>
+        <div class="card-value">{{ aiModels.length }}</div>
+      </div>
+      <div class="summary-card">
+        <div class="card-title">Active Models</div>
+        <div class="card-value">{{ aiModels.filter(m => m.status === 'Running').length }}</div>
+      </div>
+      <div class="summary-card">
+        <div class="card-title">Avg. Accuracy</div>
+        <div class="card-value">
+          {{ (aiModels.reduce((sum, model) => sum + parseFloat(model.accuracy), 0) / aiModels.length).toFixed(1) }}%
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="card-title">Total Requests</div>
+        <div class="card-value">7.58M/day</div>
+      </div>
+    </div>
+  
+    <div class="data-table">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Model Name</th>
+            <th>Status</th>
+            <th>Accuracy</th>
+            <th>Last Trained</th>
+            <th>Usage</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let model of aiModels">
+            <td>{{ model.id }}</td>
+            <td>{{ model.name }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="model.status.toLowerCase()">{{ model.status }}</span>
+            </td>
+            <td>{{ model.accuracy }}</td>
+            <td>{{ model.lastTrained }}</td>
+            <td>{{ model.usage }}</td>
+            <td class="actions">
+              <button class="btn-icon" (click)="openConfigModal(model)" title="Configure">
+                <i class="fas fa-cog"></i>
+              </button>
+              <button class="btn-icon" (click)="openPerformanceModal(model)" title="Performance">
+                <i class="fas fa-chart-line"></i>
+              </button>
+              <button class="btn-icon" (click)="openTrainingModal(model)" title="Train">
+                <i class="fas fa-brain"></i>
+              </button>
+              <button class="btn-icon" (click)="restartModel(model)" title="Restart" *ngIf="model.status !== 'Running'">
+                <i class="fas fa-play"></i>
+              </button>
+              <button class="btn-icon" (click)="pauseModel(model)" title="Pause" *ngIf="model.status === 'Running'">
+                <i class="fas fa-pause"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Configuration Modal -->
+    <div class="modal-overlay" *ngIf="isConfigModalOpen">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Configure {{ selectedModel?.name }}</h3>
+          <button class="btn-close" (click)="closeConfigModal()">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="model-name">Model Name</label>
+            <input type="text" id="model-name" [(ngModel)]="selectedModel.name">
+          </div>
+          <div class="form-group">
+            <label>Resource Allocation</label>
+            <div class="slider-container">
+              <input type="range" min="1" max="10" value="5">
+              <div class="slider-labels">
+                <span>Low</span>
+                <span>High</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>API Access</label>
+            <div class="checkbox-group">
+              <label>
+                <input type="checkbox" checked> Public API
+              </label>
+              <label>
+                <input type="checkbox" checked> Internal Services
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Rate Limiting</label>
+            <div class="input-group">
+              <input type="number" value="1000">
+              <span>requests per minute</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-outline" (click)="closeConfigModal()">Cancel</button>
+          <button class="btn-primary" (click)="saveConfig()">Save Configuration</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Performance Modal -->
+    <div class="modal-overlay" *ngIf="isPerformanceModalOpen">
+      <div class="modal wide">
+        <div class="modal-header">
+          <h3>{{ selectedModel?.name }} Performance</h3>
+          <button class="btn-close" (click)="closePerformanceModal()">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="tabs">
+            <div class="tab active">Daily</div>
+            <div class="tab">Weekly</div>
+            <div class="tab">Monthly</div>
+          </div>
+          
+          <div class="charts">
+            <div class="chart-container">
+              <div class="chart-placeholder">
+                <!-- In a real app, this would be an actual chart -->
+                <div class="mock-chart">
+                  <div class="chart-title">Accuracy</div>
+                  <div class="chart-bars">
+                    <div class="chart-bar" *ngFor="let val of performanceData.daily" [style.height.%]="val"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="chart-container">
+              <div class="chart-placeholder">
+                <!-- In a real app, this would be an actual chart -->
+                <div class="mock-chart">
+                  <div class="chart-title">Request Volume</div>
+                  <div class="chart-line">
+                    <svg viewBox="0 0 100 50">
+                      <polyline points="0,40 15,30 30,35 45,20 60,25 75,15 90,10" 
+                                fill="none" stroke="#4a6cf7" stroke-width="2"></polyline>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="performance-metrics">
+            <div class="metric-card">
+              <div class="metric-title">Latency</div>
+              <div class="metric-value">124ms</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-title">Error Rate</div>
+              <div class="metric-value">0.8%</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-title">Cache Hit Ratio</div>
+              <div class="metric-value">76%</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-title">Avg CPU Usage</div>
+              <div class="metric-value">42%</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-outline" (click)="closePerformanceModal()">Close</button>
+          <button class="btn-secondary">Export Report</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Training Modal -->
+    <div class="modal" *ngIf="isTrainingModalOpen">
+      <div class="modal-content">
+        <h2>Training {{ selectedModel?.name }}</h2>
+        <div class="training-progress">
+          <div class="progress-bar">
+            <div class="progress" [style.width.%]="trainingProgress"></div>
+          </div>
+          <span class="progress-text">{{ trainingProgress }}%</span>
+        </div>
+        <div class="training-log">
+          <div class="log-entry" *ngIf="trainingProgress > 0">Initializing training...</div>
+          <div class="log-entry" *ngIf="trainingProgress > 20">Loading training data...</div>
+          <div class="log-entry" *ngIf="trainingProgress > 40">Training batch 1/5...</div>
+          <div class="log-entry" *ngIf="trainingProgress > 50">Training batch 2/5...</div>
+          <div class="log-entry" *ngIf="trainingProgress > 60">Training batch 3/5...</div>
+          <div class="log-entry" *ngIf="trainingProgress > 70">Validation accuracy: 92.4%</div>
+          <div class="log-entry" *ngIf="trainingProgress > 80">Optimizing model parameters...</div>
+          <div class="log-entry" *ngIf="trainingProgress > 90">Finalizing model weights...</div>
+          <div class="log-entry success" *ngIf="trainingProgress >= 100">Training completed successfully!</div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-outline" [disabled]="trainingProgress > 0 && trainingProgress < 100" (click)="closeTrainingModal()">Cancel</button>
+          <button class="btn-primary" *ngIf="trainingProgress === 0" (click)="generateReport()">Start Training</button>
+          <button class="btn-primary" *ngIf="trainingProgress >= 100" (click)="closeTrainingModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

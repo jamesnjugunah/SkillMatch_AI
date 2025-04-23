@@ -6,13 +6,11 @@ import { UserManagementComponent } from './user-management/user-management.compo
 import { ContentManagementComponent } from './content-management/content-management.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
-
-
 export const adminRoutes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'dashboard', component: DashboardComponent },
-    { path: 'ai-management', component: AiManagementComponent },
-    { path: 'reports', component: ReportsComponent },
     { path: 'user-management', component: UserManagementComponent },
+    { path: 'ai-management', component: AiManagementComponent },
     { path: 'content-management', component: ContentManagementComponent },
-]
+    { path: 'reports', component: ReportsComponent }
+];

@@ -7,10 +7,10 @@
   </div>
   
   <ul class="nav-menu">
-    <li *ngFor="let item of menuItems; let i = index" 
-        [class.active]="item.active"
-        (click)="setActive(i)">
-      <a href="javascript:void(0)">
+    <li *ngFor="let item of menuItems" 
+        [routerLinkActive]="'active'"
+        [routerLink]="item.route">
+      <a>
         <i class="fa" [ngClass]="item.icon"></i>
         <span *ngIf="!collapsed">{{item.title}}</span>
       </a>

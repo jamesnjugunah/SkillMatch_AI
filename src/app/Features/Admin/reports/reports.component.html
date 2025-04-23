@@ -1,295 +1,139 @@
 <!-- reports.component.html -->
 <div class="reports-container">
-    <div class="header">
-      <h1>Analytics &amp; Insights</h1>
-      <div class="actions">
-        <button mat-raised-button color="primary" (click)="exportReport()">
-          <mat-icon>file_download</mat-icon>
-          Export Report
+  <div class="reports-header">
+    <h1>Reports Dashboard</h1>
+    <div class="filter-controls">
+      <label for="reportTypeFilter">Filter by type:</label>
+      <select id="reportTypeFilter" [(ngModel)]="selectedReportType">
+        <option *ngFor="let type of reportTypes" [value]="type">{{ type }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="reports-grid">
+    <div class="report-card" *ngFor="let report of filterReports()">
+      <div class="report-header">
+        <h3>{{ report.name }}</h3>
+        <span class="report-type">{{ report.type }}</span>
+      </div>
+      <div class="report-details">
+        <p><strong>Format:</strong> {{ report.format }}</p>
+        <p><strong>Last Generated:</strong> {{ report.lastGenerated }}</p>
+      </div>
+      <div class="report-actions">
+        <button class="btn btn-primary" (click)="openGenerateModal(report)">Generate</button>
+        <button class="btn btn-secondary" (click)="openViewModal(report)">View</button>
+        <button class="btn btn-secondary" (click)="openScheduleModal(report)">Schedule</button>
+        <button class="btn btn-outline" (click)="downloadReport(report)">
+          <i class="download-icon"></i> Download
         </button>
       </div>
     </div>
-  
-    <!-- Filters -->
-    <mat-card class="filter-card">
-      <mat-card-content>
-        <form [formGroup]="filterForm" class="filter-form">
-          <div class="filter-row">
-            <mat-form-field appearance="outline">
-              <mat-label>Date Range</mat-label>
-              <mat-select formControlName="dateRange">
-                <mat-option *ngFor="let range of dateRanges" [value]="range.value">
-                  {{range.label}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-  
-            <ng-container *ngIf="filterForm.get('dateRange')?.value === 'custom'">
-              <mat-form-field appearance="outline">
-                <mat-label>Start Date</mat-label>
-                <input matInput [matDatepicker]="startDatePicker" formControlName="startDate">
-                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-                <mat-datepicker #startDatePicker></mat-datepicker>
-              </mat-form-field>
-  
-              <mat-form-field appearance="outline">
-                <mat-label>End Date</mat-label>
-                <input matInput [matDatepicker]="endDatePicker" formControlName="endDate">
-                <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-                <mat-datepicker #endDatePicker></mat-datepicker>
-              </mat-form-field>
-            </ng-container>
-  
-            <mat-form-field appearance="outline">
-              <mat-label>User Type</mat-label>
-              <mat-select formControlName="userType">
-                <mat-option value="all">All Users</mat-option>
-                <mat-option value="jobseeker">Job Seekers</mat-option>
-                <mat-option value="recruiter">Recruiters</mat-option>
-              </mat-select>
-            </mat-form-field>
-  
-            <mat-form-field appearance="outline">
-              <mat-label>Region</mat-label>
-              <mat-select formControlName="region">
-                <mat-option value="all">All Regions</mat-option>
-                <mat-option value="north">North</mat-option>
-                <mat-option value="south">South</mat-option>
-                <mat-option value="east">East</mat-option>
-                <mat-option value="west">West</mat-option>
-              </mat-select>
-            </mat-form-field>
+  </div>
+
+  <!-- Generate Report Modal -->
+  <div class="modal" *ngIf="isGenerateModalOpen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Generate Report</h2>
+        <button class="close-btn" (click)="closeGenerateModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>{{ selectedReport?.name }}</h3>
+        <p>Type: {{ selectedReport?.type }}</p>
+        <p>Format: {{ selectedReport?.format }}</p>
+        
+        <div *ngIf="generatingReport" class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="generationProgress"></div>
           </div>
-        </form>
-      </mat-card-content>
-    </mat-card>
-  
-    <!-- Loading indicator -->
-    <div *ngIf="loading" class="loading-container">
-      <mat-spinner diameter="50"></mat-spinner>
-      <p>Loading analytics data...</p>
-    </div>
-  
-    <!-- Summary Metrics -->
-    <div *ngIf="!loading" class="metrics-grid">
-      <mat-card class="metric-card">
-        <mat-card-content>
-          <div class="metric-value">{{summaryMetrics.totalUsers | number}}</div>
-          <div class="metric-label">Total Users</div>
-        </mat-card-content>
-      </mat-card>
-  
-      <mat-card class="metric-card">
-        <mat-card-content>
-          <div class="metric-value">{{summaryMetrics.activeUsers | number}}</div>
-          <div class="metric-label">Active Users</div>
-        </mat-card-content>
-      </mat-card>
-  
-      <mat-card class="metric-card">
-        <mat-card-content>
-          <div class="metric-value">{{summaryMetrics.jobsPosted | number}}</div>
-          <div class="metric-label">Jobs Posted</div>
-        </mat-card-content>
-      </mat-card>
-  
-      <mat-card class="metric-card">
-        <mat-card-content>
-          <div class="metric-value">{{summaryMetrics.applications | number}}</div>
-          <div class="metric-label">Applications</div>
-        </mat-card-content>
-      </mat-card>
-  
-      <mat-card class="metric-card">
-        <mat-card-content>
-          <div class="metric-value">{{summaryMetrics.matchRate | number:'1.1-1'}}%</div>
-          <div class="metric-label">Match Rate</div>
-        </mat-card-content>
-      </mat-card>
-  
-      <mat-card class="metric-card">
-        <mat-card-content>
-          <div class="metric-value">{{summaryMetrics.avgResponseTime | number:'1.1-1'}} hrs</div>
-          <div class="metric-label">Avg. Response Time</div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  
-    <!-- Chart Section -->
-    <div *ngIf="!loading" class="chart-container">
-      <div class="chart-row">
-        <mat-card class="chart-card">
-          <mat-card-header>
-            <mat-card-title>User Growth</mat-card-title>
-            <button mat-icon-button (click)="openDetailDialog('users', userChartData)">
-              <mat-icon>fullscreen</mat-icon>
-            </button>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="chart">
-              <canvas baseChart
-                      [data]="userChartData"
-                      [options]="lineChartOptions"
-                      [type]="'line'">
-              </canvas>
-            </div>
-          </mat-card-content>
-        </mat-card>
-  
-        <mat-card class="chart-card">
-          <mat-card-header>
-            <mat-card-title>Job Activity</mat-card-title>
-            <button mat-icon-button (click)="openDetailDialog('jobs', jobChartData)">
-              <mat-icon>fullscreen</mat-icon>
-            </button>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="chart">
-              <canvas baseChart
-                      [data]="jobChartData"
-                      [options]="barChartOptions"
-                      [type]="'bar'">
-              </canvas>
-            </div>
-          </mat-card-content>
-        </mat-card>
+          <span class="progress-text">{{ generationProgress.toFixed(0) }}%</span>
+        </div>
       </div>
-  
-      <div class="chart-row">
-        <mat-card class="chart-card full-width">
-          <mat-card-header>
-            <mat-card-title>AI Match Performance</mat-card-title>
-            <button mat-icon-button (click)="openDetailDialog('matching', matchChartData)">
-              <mat-icon>fullscreen</mat-icon>
-            </button>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="chart">
-              <canvas baseChart
-                      [data]="matchChartData"
-                      [options]="lineChartOptions"
-                      [type]="'line'">
-              </canvas>
-            </div>
-          </mat-card-content>
-        </mat-card>
+      <div class="modal-footer">
+        <button class="btn btn-outline" (click)="closeGenerateModal()">Cancel</button>
+        <button class="btn btn-primary" (click)="generateReport()" [disabled]="generatingReport">
+          {{ generatingReport ? 'Generating...' : 'Generate' }}
+        </button>
       </div>
-    </div>
-  
-    <!-- Table Section -->
-    <div *ngIf="!loading" class="table-container">
-      <div class="table-row">
-        <mat-card class="table-card">
-          <mat-card-header>
-            <mat-card-title>Most In-Demand Skills</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <table mat-table [dataSource]="topSkills" class="skills-table">
-              <ng-container matColumnDef="rank">
-                <th mat-header-cell *matHeaderCellDef>Rank</th>
-                <td mat-cell *matCellDef="let skill; let i = index">{{i + 1}}</td>
-              </ng-container>
-  
-              <ng-container matColumnDef="skill">
-                <th mat-header-cell *matHeaderCellDef>Skill</th>
-                <td mat-cell *matCellDef="let skill">{{skill.name}}</td>
-              </ng-container>
-  
-              <ng-container matColumnDef="demand">
-                <th mat-header-cell *matHeaderCellDef>Demand</th>
-                <td mat-cell *matCellDef="let skill">
-                  <mat-progress-bar mode="determinate" [value]="skill.demandPercentage"></mat-progress-bar>
-                  <span class="percentage">{{skill.demandPercentage}}%</span>
-                </td>
-              </ng-container>
-  
-              <ng-container matColumnDef="growth">
-                <th mat-header-cell *matHeaderCellDef>Growth</th>
-                <td mat-cell *matCellDef="let skill" [ngClass]="{'positive': skill.growth > 0, 'negative': skill.growth < 0}">
-                  <mat-icon *ngIf="skill.growth > 0">arrow_upward</mat-icon>
-                  <mat-icon *ngIf="skill.growth < 0">arrow_downward</mat-icon>
-                  <mat-icon *ngIf="skill.growth === 0">remove</mat-icon>
-                  {{skill.growth | number:'+1.1-1'}}%
-                </td>
-              </ng-container>
-  
-              <tr mat-header-row *matHeaderRowDef="['rank', 'skill', 'demand', 'growth']"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['rank', 'skill', 'demand', 'growth'];"></tr>
-            </table>
-          </mat-card-content>
-        </mat-card>
-  
-        <mat-card class="table-card">
-          <mat-card-header>
-            <mat-card-title>Recent Job Matches</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <table mat-table [dataSource]="recentMatches" class="matches-table">
-              <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
-                <td mat-cell *matCellDef="let match">{{match.date | date:'short'}}</td>
-              </ng-container>
-  
-              <ng-container matColumnDef="jobTitle">
-                <th mat-header-cell *matHeaderCellDef>Job Title</th>
-                <td mat-cell *matCellDef="let match">{{match.jobTitle}}</td>
-              </ng-container>
-  
-              <ng-container matColumnDef="candidate">
-                <th mat-header-cell *matHeaderCellDef>Candidate</th>
-                <td mat-cell *matCellDef="let match">{{match.candidateName}}</td>
-              </ng-container>
-  
-              <ng-container matColumnDef="matchScore">
-                <th mat-header-cell *matHeaderCellDef>Match Score</th>
-                <td mat-cell *matCellDef="let match">
-                  <div class="match-score" [ngStyle]="{'background-color': getMatchScoreColor(match.matchScore)}">
-                    {{match.matchScore}}%
-                  </div>
-                </td>
-              </ng-container>
-  
-              <tr mat-header-row *matHeaderRowDef="['date', 'jobTitle', 'candidate', 'matchScore']"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['date', 'jobTitle', 'candidate', 'matchScore'];"></tr>
-            </table>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-  
-    <!-- AI Insights Section -->
-    <div *ngIf="!loading" class="insights-container">
-      <mat-card class="insights-card">
-        <mat-card-header>
-          <mat-card-title>AI Matching Insights</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <span class="mat-panel-title">Skill Gap Analysis</span>
-              </mat-expansion-panel-header>
-              <p>Analysis of the most common skill gaps between job requirements and candidate qualifications.</p>
-              <!-- Additional content here -->
-            </mat-expansion-panel>
-  
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>Emerging Skills & Trends</mat-panel-title>
-              </mat-expansion-panel-header>
-              <p>Identification of emerging skills and industry trends based on recent job postings.</p>
-              <!-- Additional content here -->
-            </mat-expansion-panel>
-  
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>Match Quality Factors</mat-panel-title>
-              </mat-expansion-panel-header>
-              <p>Analysis of factors contributing to high-quality matches vs. low-quality matches.</p>
-              <!-- Additional content here -->
-            </mat-expansion-panel>
-          </mat-accordion>
-        </mat-card-content>
-      </mat-card>
     </div>
   </div>
+
+  <!-- View Report Modal -->
+  <div class="modal" *ngIf="isViewModalOpen">
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h2>{{ selectedReport?.name }}</h2>
+        <button class="close-btn" (click)="closeViewModal()">&times;</button>
+      </div>
+      <div class="modal-body view-report-content">
+        <div class="report-preview">
+          <div class="report-placeholder">
+            <p>Report preview for {{ selectedReport?.name }}</p>
+            <p>Type: {{ selectedReport?.type }}</p>
+            <p>Format: {{ selectedReport?.format }}</p>
+            <p>Last Generated: {{ selectedReport?.lastGenerated }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" (click)="closeViewModal()">Close</button>
+        <button class="btn btn-primary" (click)="downloadReport(selectedReport)">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Schedule Report Modal -->
+  <div class="modal" *ngIf="isScheduleModalOpen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Schedule Report</h2>
+        <button class="close-btn" (click)="closeScheduleModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>{{ selectedReport?.name }}</h3>
+        
+        <div class="form-group">
+          <label for="frequency">Frequency</label>
+          <select id="frequency" [(ngModel)]="scheduleOptions.frequency" class="form-control">
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="quarterly">Quarterly</option>
+          </select>
+        </div>
+        
+        <div class="form-group" *ngIf="scheduleOptions.frequency === 'weekly'">
+          <label for="day">Day of Week</label>
+          <select id="day" [(ngModel)]="scheduleOptions.day" class="form-control">
+            <option value="monday">Monday</option>
+            <option value="tuesday">Tuesday</option>
+            <option value="wednesday">Wednesday</option>
+            <option value="thursday">Thursday</option>
+            <option value="friday">Friday</option>
+            <option value="saturday">Saturday</option>
+            <option value="sunday">Sunday</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="format">Format</label>
+          <select id="format" [(ngModel)]="scheduleOptions.format" class="form-control">
+            <option value="PDF">PDF</option>
+            <option value="Excel">Excel</option>
+            <option value="CSV">CSV</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="recipients">Recipients (comma separated emails)</label>
+          <input type="text" id="recipients" [(ngModel)]="scheduleOptions.recipients" class="form-control" placeholder="email@example.com, another@example.com">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" (click)="closeScheduleModal()">Cancel</button>
+        <button class="btn btn-primary" (click)="saveSchedule()">Save Schedule</button>
+      </div>
+    </div>
+  </div>
+</div>

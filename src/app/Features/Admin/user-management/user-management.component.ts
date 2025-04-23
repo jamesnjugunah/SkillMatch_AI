@@ -1,23 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatIcon } from '@angular/material/icon';
-import { MatSort } from '@angular/material/sort';
-import { MatOptionModule } from '@angular/material/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTable } from '@angular/material/table';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { UserService } from '../../../core/services/user.service';
-import { AddUserComponent } from './dialogs/add-user/add-user.component';
-import { EditUserComponent } from './dialogs/edit-user/edit-user.component';
-import { DeleteUserComponent } from './dialogs/delete-user/delete-user.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 interface User {
   id: number;
@@ -25,152 +8,122 @@ interface User {
   email: string;
   role: string;
   status: string;
-  lastLogin: Date;
+  lastLogin: string;
 }
 
 @Component({
   selector: 'app-user-management',
-  imports: [ MatPaginator, MatSort, MatTable, MatFormFieldModule, MatMenuModule, MatProgressSpinner, CommonModule, MatIcon, ReactiveFormsModule, MatOptionModule ],
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.css']
 })
 export class UserManagementComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'email', 'role', 'status', 'lastLogin', 'actions'];
-  dataSource = new MatTableDataSource<User>([]);
-  searchControl = new FormControl('');
-  roleFilter = new FormControl('');
-  statusFilter = new FormControl('');
-  
-  roles: string[] = ['Admin', 'Editor', 'Viewer', 'User'];
-  statuses: string[] = ['Active', 'Inactive', 'Pending', 'Suspended'];
-  
-  isLoading = false;
-  
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  users: User[] = [
+    { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', status: 'Active', lastLogin: '2025-04-20' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'Editor', status: 'Active', lastLogin: '2025-04-19' },
+    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'Viewer', status: 'Inactive', lastLogin: '2025-03-15' },
+    { id: 4, name: 'Alice Williams', email: 'alice@example.com', role: 'Editor', status: 'Pending', lastLogin: 'N/A' }
+  ];
 
-  constructor(
-    private userService: UserService,
-    private dialog: MatDialog
-  ) {}
+  filteredUsers = [...this.users];
+  selectedUser: User | null = null;
+  isAddUserModalOpen = false;
+  isEditUserModalOpen = false;
+  isDeleteUserModalOpen = false;
+  statusFilter = 'all';
+  roleFilter = 'all';
+  
+  newUser = {
+    name: '',
+    email: '',
+    role: '',
+    status: 'Pending'
+  };
+
+  constructor() { }
 
   ngOnInit(): void {
-    // Setup search and filter controls
-    this.searchControl.valueChanges.pipe(
-      debounceTime(400),
-      distinctUntilChanged()
-    ).subscribe(value => {
-      this.applyFilter();
-    });
-    
-    this.roleFilter.valueChanges.subscribe(() => this.applyFilter());
-    this.statusFilter.valueChanges.subscribe(() => this.applyFilter());
-    
-    this.loadUsers();
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  loadUsers() {
-    this.isLoading = true;
-    // In a real application, this would call your user service
-    this.userService.getUsers().subscribe({
-      next: (users) => {
-        this.dataSource.data = users;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error loading users', error);
-        this.isLoading = false;
-      }
+  applyFilters(): void {
+    this.filteredUsers = this.users.filter(user => {
+      const statusMatch = this.statusFilter === 'all' || user.status === this.statusFilter;
+      const roleMatch = this.roleFilter === 'all' || user.role === this.roleFilter;
+      return statusMatch && roleMatch;
     });
   }
 
-  applyFilter() {
-    const searchTerm = this.searchControl.value?.toLowerCase() || '';
-    const roleFilter = this.roleFilter.value || '';
-    const statusFilter = this.statusFilter.value || '';
+  resetFilters(): void {
+    this.statusFilter = 'all';
+    this.roleFilter = 'all';
+    this.filteredUsers = [...this.users];
+  }
 
-    // Create a combined filter function
-    this.dataSource.filterPredicate = (data: User, filter: string) => {
-      const matchesSearch = data.name.toLowerCase().includes(searchTerm) || 
-                           data.email.toLowerCase().includes(searchTerm);
-      const matchesRole = roleFilter ? data.role === roleFilter : true;
-      const matchesStatus = statusFilter ? data.status === statusFilter : true;
-      
-      return matchesSearch && matchesRole && matchesStatus;
+  openAddUserModal(): void {
+    this.newUser = {
+      name: '',
+      email: '',
+      role: '',
+      status: 'Pending'
+    };
+    this.isAddUserModalOpen = true;
+  }
+
+  closeAddUserModal(): void {
+    this.isAddUserModalOpen = false;
+  }
+
+  addUser(): void {
+    const newId = this.users.length > 0 ? Math.max(...this.users.map(u => u.id)) + 1 : 1;
+    const user: User = {
+      id: newId,
+      name: this.newUser.name,
+      email: this.newUser.email,
+      role: this.newUser.role,
+      status: this.newUser.status,
+      lastLogin: 'N/A'
     };
     
-    // Trigger filtering (using empty string as the filterValue because we're using a custom filterPredicate)
-    this.dataSource.filter = ' ';
+    this.users.push(user);
+    this.filteredUsers = [...this.users];
+    this.applyFilters();
+    this.isAddUserModalOpen = false;
   }
 
-  resetFilters() {
-    this.searchControl.setValue('');
-    this.roleFilter.setValue('');
-    this.statusFilter.setValue('');
-    this.dataSource.filter = '';
+  openEditUserModal(user: User): void {
+    this.selectedUser = { ...user };
+    this.isEditUserModalOpen = true;
   }
 
-  openAddUserDialog() {
-    const dialogRef = this.dialog.open(AddUserComponent, {
-      width: '500px'
-    });
+  closeEditUserModal(): void {
+    this.isEditUserModalOpen = false;
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.userService.addUser(result).subscribe({
-          next: () => {
-            this.loadUsers();
-          },
-          error: (error) => {
-            console.error('Error adding user', error);
-          }
-        });
+  updateUser(): void {
+    if (this.selectedUser) {
+      const index = this.users.findIndex(u => u.id === this.selectedUser?.id);
+      if (index !== -1) {
+        this.users[index] = { ...this.selectedUser };
+        this.filteredUsers = [...this.users];
+        this.applyFilters();
       }
-    });
+      this.isEditUserModalOpen = false;
+    }
   }
 
-  openEditUserDialog(user: User) {
-    const dialogRef = this.dialog.open(EditUserComponent, {
-      width: '500px',
-      data: { ...user }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.userService.updateUser(result.id, result).subscribe({
-          next: () => {
-            this.loadUsers();
-          },
-          error: (error) => {
-            console.error('Error updating user', error);
-          }
-        });
-      }
-    });
+  openDeleteUserModal(user: User): void {
+    this.selectedUser = user;
+    this.isDeleteUserModalOpen = true;
   }
 
-  openDeleteUserDialog(user: User) {
-    const dialogRef = this.dialog.open(DeleteUserComponent, {
-      width: '400px',
-      data: { user }
-    });
+  closeDeleteUserModal(): void {
+    this.isDeleteUserModalOpen = false;
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.userService.deleteUser(user.id).subscribe({
-          next: () => {
-            this.loadUsers();
-          },
-          error: (error) => {
-            console.error('Error deleting user', error);
-          }
-        });
-      }
-    });
+  deleteUser(): void {
+    this.users = this.users.filter(u => u.id !== this.selectedUser?.id);
+    this.filteredUsers = this.filteredUsers.filter(u => u.id !== this.selectedUser?.id);
+    this.isDeleteUserModalOpen = false;
   }
 }
